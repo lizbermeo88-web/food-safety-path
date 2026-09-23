@@ -26,7 +26,7 @@ export function SiteHeader() {
         </span>
       </Link>
 
-      <nav className="hidden items-center gap-7 text-sm font-bold text-ink-soft md:flex">
+     <nav className="flex items-center gap-4 text-sm font-bold text-ink-soft md:gap-7">
         <Link to="/curso" className="hover:text-ink">
           Módulos
         </Link>
