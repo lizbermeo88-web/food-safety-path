@@ -79,6 +79,7 @@ function Test() {
   const total = mod.quiz.length;
   const question = mod.quiz[index]!;
   const isFinal = mod.id === modules.length;
+  const modId = mod.id;
 
   function reset() {
     setIndex(0);
