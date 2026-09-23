@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import { useAuth } from "@/hooks/useAuth";
 import logoCoruna from "@/assets/logo-coruna.jpg";
+
 
 
 export function Backdrop() {
