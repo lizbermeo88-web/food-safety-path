@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { useAuth } from "@/hooks/useAuth";
+import logoCoruna from "@/assets/logo-coruna.jpg";
+
 
 export function Backdrop() {
   return (
@@ -18,9 +19,12 @@ export function SiteHeader() {
   return (
     <header className="no-print relative mx-auto flex max-w-6xl items-center justify-between px-6 pt-6">
       <Link to="/" className="flex items-center gap-2">
-        <span className="grid size-10 place-items-center rounded-2xl bg-mint-deep font-display text-lg font-bold text-primary-foreground">
-          A
-        </span>
+                <img
+          src={logoCoruna}
+          alt="Hostelería A Coruña"
+          className="size-10 rounded-2xl object-contain bg-white"
+        />
+
         <span className="font-display text-lg font-semibold tracking-tight">
           Aula<span className="text-mint-deep">Cunqueiro</span>
         </span>
