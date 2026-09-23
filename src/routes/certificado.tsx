@@ -6,7 +6,6 @@ import { buildState, useCertificate, useIssueCertificate, useProgress } from "@/
 import { ASSOCIATION, modules } from "@/data/course";
 import logoCoruna from "@/assets/logo-coruna.jpg";
 
-
 export const Route = createFileRoute("/certificado")({
   head: () => ({
     meta: [
@@ -95,9 +94,6 @@ function Certificado() {
               alt="Hostelería A Coruña"
               className="mx-auto h-24 w-auto object-contain"
             />
- 
-              
-            </div>
             <p className="mt-5 text-xs font-bold tracking-[0.2em] text-ink-soft uppercase">{ASSOCIATION}</p>
             <h1 className="mt-4 font-display text-3xl font-bold">Certificado de Manipulador de Alimentos</h1>
             <p className="mt-6 text-sm text-ink-soft">Se certifica que</p>
