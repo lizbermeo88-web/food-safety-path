@@ -58,9 +58,9 @@ function Index() {
             >
               {loading ? "Cargando…" : user ? "Continuar curso" : "Empezar el curso"}
             </Link>
-            <Link to="/curso" className="glass rounded-full px-7 py-3.5 font-bold">
+            <a href="#temario" className="glass rounded-full px-7 py-3.5 font-bold">
               Ver temario
-            </Link>
+            </a>
           </div>
         </div>
 
@@ -92,9 +92,52 @@ function Index() {
           <div className="floaty glass absolute top-6 -left-6 rounded-2xl px-4 py-2 text-sm font-bold shadow-md">
             ✓ Test repetible
           </div>
-          <div className="floaty-slow absolute -right-4 bottom-10 rounded-2xl bg-peach/80 px-4 py-2 text-sm font-bold shadow-md backdrop-blur-md">
+          <div className="floaty-slow absolute -right-4 -bottom-5 rounded-2xl bg-peach/80 px-4 py-2 text-sm font-bold shadow-md backdrop-blur-md">
             ★ Progreso guardado
           </div>
+        </div>
+      </section>
+
+      <section id="temario" className="relative mx-auto max-w-6xl scroll-mt-24 px-6 pb-24">
+        <h2 className="font-display text-3xl font-bold">Temario del curso</h2>
+        <p className="mt-2 max-w-xl text-ink-soft">
+          Seis módulos con teoría y un test final en cada uno. Necesitas un 80% de aciertos para pasar al siguiente, y
+          puedes repetir el test tantas veces como quieras.
+        </p>
+        <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {modules.map((mod) => (
+            <article key={mod.id} className="glass overflow-hidden rounded-[1.75rem] p-4">
+              <img
+                src={mod.image}
+                alt={mod.title}
+                loading="lazy"
+                width={944}
+                height={704}
+                className="aspect-[4/3] w-full rounded-2xl object-cover"
+              />
+              <p className="mt-4 text-xs font-bold tracking-wider text-lav-deep uppercase">
+                Módulo {mod.id} · {mod.duration}
+              </p>
+              <h3 className="mt-1 font-display text-lg leading-snug font-bold">{mod.title}</h3>
+              <p className="mt-2 text-sm text-ink-soft">{mod.summary}</p>
+            </article>
+          ))}
+        </div>
+
+        <div className="glass-strong mt-10 flex flex-wrap items-center justify-between gap-4 rounded-[1.75rem] p-7">
+          <div>
+            <h3 className="font-display text-xl font-bold">Certificado al terminar</h3>
+            <p className="mt-1 max-w-lg text-sm text-ink-soft">
+              Al aprobar los seis módulos se emite automáticamente tu certificado con tu nombre, la fecha y el código de
+              registro de la {ASSOCIATION}.
+            </p>
+          </div>
+          <Link
+            to={user ? "/curso" : "/acceso"}
+            className="rounded-full bg-ink px-7 py-3.5 font-bold text-card"
+          >
+            {user ? "Ir a mis módulos" : "Crear mi cuenta"}
+          </Link>
         </div>
       </section>
     </Page>
