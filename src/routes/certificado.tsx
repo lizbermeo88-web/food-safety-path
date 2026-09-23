@@ -4,6 +4,8 @@ import { Page } from "@/components/site/Shell";
 import { useAuth } from "@/hooks/useAuth";
 import { buildState, useCertificate, useIssueCertificate, useProgress } from "@/lib/progress";
 import { ASSOCIATION, modules } from "@/data/course";
+import logoCoruna from "@/assets/logo-coruna.jpg";
+
 
 export const Route = createFileRoute("/certificado")({
   head: () => ({
@@ -88,7 +90,12 @@ function Certificado() {
           <div className="absolute inset-4 rounded-[1.5rem] outline-2 -outline-offset-2 outline-mint-deep/25" />
 
           <div className="relative">
-            <div className="mx-auto grid h-20 w-40 place-items-center rounded-2xl bg-mint/40 text-[10px] font-bold tracking-widest text-ink-soft uppercase">
+            <img
+              src={logoCoruna}
+              alt="Hostelería A Coruña"
+              className="mx-auto h-24 w-auto object-contain"
+            />
+est text-ink-soft uppercase">
               Logotipo
             </div>
             <p className="mt-5 text-xs font-bold tracking-[0.2em] text-ink-soft uppercase">{ASSOCIATION}</p>

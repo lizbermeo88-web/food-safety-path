@@ -2,6 +2,8 @@ import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import logoCoruna from "@/assets/logo-coruna.jpg";
+import logosInstitucionales from "@/assets/logos-institucionales.png";
+
 
 
 
@@ -60,7 +62,17 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   return (
-    <footer className="no-print relative mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 pb-10 text-sm text-ink-soft md:flex-row">
+    <footer className="no-print relative mx-auto flex max-w-6xl flex-col items-center gap-4 px-6 pb-10 text-sm text-ink-soft">
+      <img
+        src={logosInstitucionales}
+        alt="Hostelería de España, Hostelería de Galicia y Asociación Álvaro Cunqueiro"
+        className="h-12 w-auto max-w-full object-contain md:h-14"
+      />
+      <span className="text-center">
+        Asociación de Empresarios de Hostelería Álvaro Cunqueiro · Formación en higiene alimentaria
+      </span>
+    </footer>
+text-ink-soft md:flex-row">
       <span>Asociación de Empresarios de Hostelería Álvaro Cunqueiro · Formación en higiene alimentaria</span>
     </footer>
   );
