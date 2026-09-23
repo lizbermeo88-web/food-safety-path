@@ -77,11 +77,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Curso de Manipulador de Alimentos" },
+      {
+        name: "description",
+        content:
+          "Curso online de manipulador de alimentos de la Asociación de Empresarios de Hostelería Álvaro Cunqueiro.",
+      },
+      { name: "author", content: "Asociación de Empresarios de Hostelería Álvaro Cunqueiro" },
+      { property: "og:title", content: "Curso de Manipulador de Alimentos" },
+      {
+        property: "og:description",
+        content: "Seis módulos con teoría, evaluación y certificado final.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
@@ -125,8 +132,10 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <AuthProvider>
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
