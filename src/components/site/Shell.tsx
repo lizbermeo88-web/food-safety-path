@@ -72,6 +72,9 @@ export function SiteFooter() {
         Asociación de Empresarios de Hostelería Álvaro Cunqueiro · Formación en higiene alimentaria
       </span>
     </footer>
+  );
+}
+
 text-ink-soft md:flex-row">
       <span>Asociación de Empresarios de Hostelería Álvaro Cunqueiro · Formación en higiene alimentaria</span>
     </footer>

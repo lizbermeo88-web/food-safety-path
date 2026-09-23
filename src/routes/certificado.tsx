@@ -95,8 +95,8 @@ function Certificado() {
               alt="Hostelería A Coruña"
               className="mx-auto h-24 w-auto object-contain"
             />
-est text-ink-soft uppercase">
-              Logotipo
+ 
+              
             </div>
             <p className="mt-5 text-xs font-bold tracking-[0.2em] text-ink-soft uppercase">{ASSOCIATION}</p>
             <h1 className="mt-4 font-display text-3xl font-bold">Certificado de Manipulador de Alimentos</h1>
