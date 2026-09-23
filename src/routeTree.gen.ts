@@ -10,33 +10,102 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AccesoRouteImport } from './routes/acceso'
+import { Route as CertificadoRouteImport } from './routes/certificado'
+import { Route as CursoIndexRouteImport } from './routes/curso.index'
+import { Route as CursoModuleIdIndexRouteImport } from './routes/curso.$moduleId.index'
+import { Route as CursoModuleIdTestRouteImport } from './routes/curso.$moduleId.test'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccesoRoute = AccesoRouteImport.update({
+  id: '/acceso',
+  path: '/acceso',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CertificadoRoute = CertificadoRouteImport.update({
+  id: '/certificado',
+  path: '/certificado',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CursoIndexRoute = CursoIndexRouteImport.update({
+  id: '/curso/',
+  path: '/curso/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CursoModuleIdIndexRoute = CursoModuleIdIndexRouteImport.update({
+  id: '/curso/$moduleId/',
+  path: '/curso/$moduleId/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CursoModuleIdTestRoute = CursoModuleIdTestRouteImport.update({
+  id: '/curso/$moduleId/test',
+  path: '/curso/$moduleId/test',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/acceso': typeof AccesoRoute
+  '/certificado': typeof CertificadoRoute
+  '/curso/': typeof CursoIndexRoute
+  '/curso/$moduleId/test': typeof CursoModuleIdTestRoute
+  '/curso/$moduleId/': typeof CursoModuleIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/acceso': typeof AccesoRoute
+  '/certificado': typeof CertificadoRoute
+  '/curso': typeof CursoIndexRoute
+  '/curso/$moduleId/test': typeof CursoModuleIdTestRoute
+  '/curso/$moduleId': typeof CursoModuleIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/acceso': typeof AccesoRoute
+  '/certificado': typeof CertificadoRoute
+  '/curso/': typeof CursoIndexRoute
+  '/curso/$moduleId/test': typeof CursoModuleIdTestRoute
+  '/curso/$moduleId/': typeof CursoModuleIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/acceso'
+    | '/certificado'
+    | '/curso/'
+    | '/curso/$moduleId/test'
+    | '/curso/$moduleId/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/acceso'
+    | '/certificado'
+    | '/curso'
+    | '/curso/$moduleId/test'
+    | '/curso/$moduleId'
+  id:
+    | '__root__'
+    | '/'
+    | '/acceso'
+    | '/certificado'
+    | '/curso/'
+    | '/curso/$moduleId/test'
+    | '/curso/$moduleId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccesoRoute: typeof AccesoRoute
+  CertificadoRoute: typeof CertificadoRoute
+  CursoIndexRoute: typeof CursoIndexRoute
+  CursoModuleIdTestRoute: typeof CursoModuleIdTestRoute
+  CursoModuleIdIndexRoute: typeof CursoModuleIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +117,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/acceso': {
+      id: '/acceso'
+      path: '/acceso'
+      fullPath: '/acceso'
+      preLoaderRoute: typeof AccesoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/certificado': {
+      id: '/certificado'
+      path: '/certificado'
+      fullPath: '/certificado'
+      preLoaderRoute: typeof CertificadoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/curso/': {
+      id: '/curso/'
+      path: '/curso'
+      fullPath: '/curso/'
+      preLoaderRoute: typeof CursoIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/curso/$moduleId/': {
+      id: '/curso/$moduleId/'
+      path: '/curso/$moduleId'
+      fullPath: '/curso/$moduleId/'
+      preLoaderRoute: typeof CursoModuleIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/curso/$moduleId/test': {
+      id: '/curso/$moduleId/test'
+      path: '/curso/$moduleId/test'
+      fullPath: '/curso/$moduleId/test'
+      preLoaderRoute: typeof CursoModuleIdTestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccesoRoute: AccesoRoute,
+  CertificadoRoute: CertificadoRoute,
+  CursoIndexRoute: CursoIndexRoute,
+  CursoModuleIdTestRoute: CursoModuleIdTestRoute,
+  CursoModuleIdIndexRoute: CursoModuleIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
