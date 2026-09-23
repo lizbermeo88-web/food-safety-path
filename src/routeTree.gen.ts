@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccesoRouteImport } from './routes/acceso'
+import { Route as CertificadoRouteImport } from './routes/certificado'
 import { Route as CursoIndexRouteImport } from './routes/curso.index'
 import { Route as CursoModuleIdIndexRouteImport } from './routes/curso.$moduleId.index'
 import { Route as CursoModuleIdTestRouteImport } from './routes/curso.$moduleId.test'
@@ -23,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
 const AccesoRoute = AccesoRouteImport.update({
   id: '/acceso',
   path: '/acceso',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CertificadoRoute = CertificadoRouteImport.update({
+  id: '/certificado',
+  path: '/certificado',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CursoIndexRoute = CursoIndexRouteImport.update({
@@ -44,6 +50,7 @@ const CursoModuleIdTestRoute = CursoModuleIdTestRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/acceso': typeof AccesoRoute
+  '/certificado': typeof CertificadoRoute
   '/curso/': typeof CursoIndexRoute
   '/curso/$moduleId/test': typeof CursoModuleIdTestRoute
   '/curso/$moduleId/': typeof CursoModuleIdIndexRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/acceso': typeof AccesoRoute
+  '/certificado': typeof CertificadoRoute
   '/curso': typeof CursoIndexRoute
   '/curso/$moduleId/test': typeof CursoModuleIdTestRoute
   '/curso/$moduleId': typeof CursoModuleIdIndexRoute
@@ -59,6 +67,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/acceso': typeof AccesoRoute
+  '/certificado': typeof CertificadoRoute
   '/curso/': typeof CursoIndexRoute
   '/curso/$moduleId/test': typeof CursoModuleIdTestRoute
   '/curso/$moduleId/': typeof CursoModuleIdIndexRoute
@@ -66,13 +75,25 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/acceso' | '/curso/' | '/curso/$moduleId/test' | '/curso/$moduleId/'
+    | '/'
+    | '/acceso'
+    | '/certificado'
+    | '/curso/'
+    | '/curso/$moduleId/test'
+    | '/curso/$moduleId/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/acceso' | '/curso' | '/curso/$moduleId/test' | '/curso/$moduleId'
+  to:
+    | '/'
+    | '/acceso'
+    | '/certificado'
+    | '/curso'
+    | '/curso/$moduleId/test'
+    | '/curso/$moduleId'
   id:
     | '__root__'
     | '/'
     | '/acceso'
+    | '/certificado'
     | '/curso/'
     | '/curso/$moduleId/test'
     | '/curso/$moduleId/'
@@ -81,6 +102,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccesoRoute: typeof AccesoRoute
+  CertificadoRoute: typeof CertificadoRoute
   CursoIndexRoute: typeof CursoIndexRoute
   CursoModuleIdTestRoute: typeof CursoModuleIdTestRoute
   CursoModuleIdIndexRoute: typeof CursoModuleIdIndexRoute
@@ -100,6 +122,13 @@ declare module '@tanstack/react-router' {
       path: '/acceso'
       fullPath: '/acceso'
       preLoaderRoute: typeof AccesoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/certificado': {
+      id: '/certificado'
+      path: '/certificado'
+      fullPath: '/certificado'
+      preLoaderRoute: typeof CertificadoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/curso/': {
@@ -129,6 +158,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccesoRoute: AccesoRoute,
+  CertificadoRoute: CertificadoRoute,
   CursoIndexRoute: CursoIndexRoute,
   CursoModuleIdTestRoute: CursoModuleIdTestRoute,
   CursoModuleIdIndexRoute: CursoModuleIdIndexRoute,
