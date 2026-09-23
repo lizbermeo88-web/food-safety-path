@@ -104,7 +104,7 @@ function Test() {
       return;
     }
     setDone(true);
-    const res = await saveAttempt.mutateAsync({ moduleId: mod.id, score: finalScore, total });
+    const res = await saveAttempt.mutateAsync({ moduleId: modId, score: finalScore, total });
     setResult(res);
   }
 

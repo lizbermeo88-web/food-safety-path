@@ -126,10 +126,11 @@ function Teoria() {
   const section = mod.sections[current]!;
   const tone = toneClasses[mod.tone];
   const isLast = current === mod.sections.length - 1;
+  const modId = mod.id;
 
   function goTo(index: number) {
     setCurrent(index);
-    saveSection.mutate({ moduleId: mod.id, section: index });
+    saveSection.mutate({ moduleId: modId, section: index });
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
