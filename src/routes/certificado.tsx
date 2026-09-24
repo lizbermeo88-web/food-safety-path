@@ -110,10 +110,15 @@ function Certificado() {
                 <br />
                 <span className="text-ink">{issued.toLocaleDateString("es-ES")}</span>
               </span>
-              <span className="grid size-20 place-items-center rounded-full text-[9px] tracking-widest uppercase outline-2 outline-mint-deep/40">
-                Sello
-                <br />
-                oficial
+              <span className="flex flex-col items-center gap-1">
+                <span className="grid size-20 place-items-center overflow-hidden rounded-full bg-white outline-2 outline-mint-deep/50">
+                  <img
+                    src={logoCoruna}
+                    alt="Sello oficial Hostelería A Coruña"
+                    className="size-16 object-contain"
+                  />
+                </span>
+                <span className="text-[9px] tracking-widest uppercase">Sello oficial</span>
               </span>
               <span>
                 Código de registro
