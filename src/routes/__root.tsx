@@ -90,8 +90,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         property: "og:description",
         content: "Seis módulos con teoría, evaluación y certificado final.",
       },
-      { property: "og:type", content: "website" },
+           { property: "og:type", content: "website" },
+      { property: "og:locale", content: "es_ES" },
+      { property: "og:image", content: "/og-curso.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "/og-curso.jpg" },
+
     
     ],
     links: [
