@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -57,20 +57,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, [session?.user?.id]);
 
+  const user = session?.user ?? null;
+
   const metaName =
-    (session?.user?.user_metadata?.["full_name"] as string | undefined) ??
-    (session?.user?.user_metadata?.["name"] as string | undefined) ??
+    (user?.user_metadata?.["full_name"] as string | undefined) ??
+    (user?.user_metadata?.["name"] as string | undefined) ??
     "";
 
-  const value: AuthContextValue = {
-    user: session?.user ?? null,
-    session,
-    loading,
-    fullName: profileName || metaName || session?.user?.email?.split("@")[0] || "",
-    signOut: async () => {
-      await supabase.auth.signOut();
-    },
-  };
+  const fullName = profileName || metaName || user?.email?.split("@")[0] || "";
+
+  const signOut = useCallback(async () => {
+    await supabase.auth.signOut();
+  }, []);
+
+  const value = useMemo<AuthContextValue>(
+    () => ({
+      user,
+      session,
+      loading,
+      fullName,
+      signOut,
+    }),
+    [user, session, loading, fullName, signOut],
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
