@@ -12,7 +12,6 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { AuthProvider } from "@/hooks/useAuth";
 
-
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -38,9 +37,9 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
- useEffect(() => {
-  console.error(error);
-}, [error]);
+  useEffect(() => {
+    console.error(error);
+  }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -90,13 +89,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         property: "og:description",
         content: "Seis módulos con teoría, evaluación y certificado final.",
       },
-           { property: "og:type", content: "website" },
+      { property: "og:type", content: "website" },
       { property: "og:locale", content: "es_ES" },
       { property: "og:image", content: "/og-curso.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:image", content: "/og-curso.jpg" },
-
-    
     ],
     links: [
       {
@@ -109,7 +106,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.jpg", type: "image/jpeg" },
     ],
   }),
   shellComponent: RootShell,
