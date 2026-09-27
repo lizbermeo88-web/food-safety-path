@@ -22,8 +22,13 @@ export const Route = createFileRoute("/acceso")({
   component: Acceso,
 });
 
+type Mode = "login" | "signup" | "forgot" | "update";
+
+const fieldClass =
+  "mt-1 w-full rounded-2xl bg-card/70 px-4 py-3 text-sm font-semibold outline-1 -outline-offset-1 outline-border placeholder:text-ink-soft/60 focus:outline-2 focus:outline-mint-deep";
+
 function Acceso() {
-  const [mode, setMode] = useState<"login" | "signup">("login");
+  const [mode, setMode] = useState<Mode>("login");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,8 +39,26 @@ function Acceso() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) void navigate({ to: "/curso" });
-  }, [user, navigate]);
+    const { data } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "PASSWORD_RECOVERY") {
+        setMode("update");
+        setError(null);
+        setMessage("Elige una contraseña nueva para tu cuenta.");
+      }
+    });
+    return () => data.subscription.unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (user && mode !== "update") void navigate({ to: "/curso" });
+  }, [user, mode, navigate]);
+
+  function irA(next: Mode) {
+    setMode(next);
+    setError(null);
+    setMessage(null);
+    setPassword("");
+  }
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -55,6 +78,16 @@ function Acceso() {
       if (err) setError(traducir(err.message));
       else if (!data.session)
         setMessage("Te hemos enviado un correo para confirmar tu cuenta. Ábrelo y vuelve a entrar.");
+    } else if (mode === "forgot") {
+      const { error: err } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/acceso`,
+      });
+      if (err) setError(traducir(err.message));
+      else setMessage("Si ese correo tiene cuenta, te hemos enviado un enlace para cambiar la contraseña. Revisa también el spam.");
+    } else if (mode === "update") {
+      const { error: err } = await supabase.auth.updateUser({ password });
+      if (err) setError(traducir(err.message));
+      else void navigate({ to: "/curso" });
     } else {
       const { error: err } = await supabase.auth.signInWithPassword({ email, password });
       if (err) setError(traducir(err.message));
@@ -62,14 +95,39 @@ function Acceso() {
     setBusy(false);
   }
 
+  const titulo =
+    mode === "signup"
+      ? "Crear tu cuenta"
+      : mode === "forgot"
+        ? "Recuperar contraseña"
+        : mode === "update"
+          ? "Nueva contraseña"
+          : "Entrar al curso";
+
+  const subtitulo =
+    mode === "forgot"
+      ? "Te enviaremos un correo con un enlace para elegir una contraseña nueva. Tu progreso no se pierde."
+      : mode === "update"
+        ? "Escribe una contraseña nueva (mínimo 6 caracteres). Después entrarás al curso."
+        : `Tu progreso y tu certificado quedan guardados en tu cuenta. Certificado emitido por la ${ASSOCIATION}.`;
+
+  const boton =
+    busy
+      ? "Un momento…"
+      : mode === "signup"
+        ? "Crear cuenta"
+        : mode === "forgot"
+          ? "Enviar enlace"
+          : mode === "update"
+            ? "Guardar contraseña"
+            : "Entrar";
+
   return (
     <Page>
       <section className="relative mx-auto max-w-md px-6 pt-12 pb-24">
         <div className="glass-strong rounded-[2rem] p-8 shadow-xl shadow-lav/20">
-          <h1 className="text-3xl font-bold">{mode === "login" ? "Entrar al curso" : "Crear tu cuenta"}</h1>
-          <p className="mt-2 text-sm text-ink-soft">
-            Tu progreso y tu certificado quedan guardados en tu cuenta. Certificado emitido por la {ASSOCIATION}.
-          </p>
+          <h1 className="text-3xl font-bold">{titulo}</h1>
+          <p className="mt-2 text-sm text-ink-soft">{subtitulo}</p>
 
           <form onSubmit={submit} className="mt-6 space-y-3">
             {mode === "signup" && (
@@ -80,31 +138,45 @@ function Acceso() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Tal como aparecerá en el certificado"
-                  className="mt-1 w-full rounded-2xl bg-card/70 px-4 py-3 text-sm font-semibold outline-1 -outline-offset-1 outline-border placeholder:text-ink-soft/60 focus:outline-2 focus:outline-mint-deep"
+                  className={fieldClass}
                 />
               </label>
             )}
-            <label className="block">
-              <span className="text-sm font-bold">Correo electrónico</span>
-              <input
-                required
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 w-full rounded-2xl bg-card/70 px-4 py-3 text-sm font-semibold outline-1 -outline-offset-1 outline-border focus:outline-2 focus:outline-mint-deep"
-              />
-            </label>
-            <label className="block">
-              <span className="text-sm font-bold">Contraseña</span>
-              <input
-                required
-                type="password"
-                minLength={6}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 w-full rounded-2xl bg-card/70 px-4 py-3 text-sm font-semibold outline-1 -outline-offset-1 outline-border focus:outline-2 focus:outline-mint-deep"
-              />
-            </label>
+            {mode !== "update" && (
+              <label className="block">
+                <span className="text-sm font-bold">Correo electrónico</span>
+                <input
+                  required
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className={fieldClass}
+                />
+              </label>
+            )}
+            {(mode === "login" || mode === "signup" || mode === "update") && (
+              <label className="block">
+                <span className="text-sm font-bold">{mode === "update" ? "Contraseña nueva" : "Contraseña"}</span>
+                <input
+                  required
+                  type="password"
+                  minLength={6}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={fieldClass}
+                />
+              </label>
+            )}
+
+            {mode === "login" && (
+              <button
+                type="button"
+                onClick={() => irA("forgot")}
+                className="text-sm font-bold text-lav-deep"
+              >
+                He olvidado mi contraseña
+              </button>
+            )}
 
             {error && <p className="rounded-2xl bg-destructive/10 p-3 text-sm font-semibold text-destructive">{error}</p>}
             {message && <p className="rounded-2xl bg-mint/60 p-3 text-sm font-semibold">{message}</p>}
@@ -114,20 +186,18 @@ function Acceso() {
               disabled={busy}
               className="w-full rounded-full bg-mint-deep py-3 font-bold text-primary-foreground shadow-lg shadow-mint-deep/30 disabled:opacity-60"
             >
-              {busy ? "Un momento…" : mode === "login" ? "Entrar" : "Crear cuenta"}
+              {boton}
             </button>
           </form>
 
-          <button
-            onClick={() => {
-              setMode(mode === "login" ? "signup" : "login");
-              setError(null);
-              setMessage(null);
-            }}
-            className="mt-5 w-full text-sm font-bold text-lav-deep"
-          >
-            {mode === "login" ? "No tengo cuenta todavía" : "Ya tengo cuenta, quiero entrar"}
-          </button>
+          {mode !== "update" && (
+            <button
+              onClick={() => irA(mode === "login" ? "signup" : "login")}
+              className="mt-5 w-full text-sm font-bold text-lav-deep"
+            >
+              {mode === "signup" ? "Ya tengo cuenta, quiero entrar" : "No tengo cuenta todavía"}
+            </button>
+          )}
         </div>
       </section>
     </Page>
@@ -139,5 +209,7 @@ function traducir(msg: string) {
   if (/already registered/i.test(msg)) return "Ya existe una cuenta con ese correo. Prueba a entrar.";
   if (/Email not confirmed/i.test(msg)) return "Confirma tu correo desde el mensaje que te hemos enviado.";
   if (/Password should be/i.test(msg)) return "La contraseña debe tener al menos 6 caracteres.";
+  if (/rate limit/i.test(msg)) return "Has pedido demasiados correos seguidos. Espera un minuto e inténtalo de nuevo.";
+  if (/redirect/i.test(msg)) return "Hay que autorizar esta dirección en Supabase (Authentication → URL Configuration)."
   return msg;
 }
