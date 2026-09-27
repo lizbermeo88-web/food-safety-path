@@ -77,7 +77,7 @@ function Acceso() {
         setMessage("Te hemos enviado un correo para confirmar tu cuenta. Ábrelo y vuelve a entrar.");
     } else if (mode === "forgot") {
       const { error: err } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/acceso`,
+        redirectTo: `${window.location.origin}/reset-password`,
       });
       if (err) setError(traducir(err.message));
       else
