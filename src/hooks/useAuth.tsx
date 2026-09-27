@@ -39,28 +39,32 @@ function abrirCambioDeContrasena() {
   window.location.replace(`${window.location.origin}/reset-password`);
 }
 
+function recuperacionEnAcceso() {
+  return typeof window !== "undefined" && window.location.pathname === "/acceso" && urlDeRecuperacion();
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [profileName, setProfileName] = useState("");
-  const [recovering, setRecovering] = useState(() => urlDeRecuperacion());
+  const [recovering, setRecovering] = useState(() => recuperacionEnAcceso());
 
   useEffect(() => {
-    if (urlDeRecuperacion()) setRecovering(true);
+    if (recuperacionEnAcceso()) setRecovering(true);
 
     const { data: sub } = supabase.auth.onAuthStateChange((event, nextSession) => {
       setSession(nextSession);
       setLoading(false);
       if (event === "PASSWORD_RECOVERY") {
-        setRecovering(true);
+        setRecovering(false);
         abrirCambioDeContrasena();
-      } else if (urlDeRecuperacion()) {
+      } else if (recuperacionEnAcceso()) {
         setRecovering(true);
       }
     });
 
     supabase.auth.getSession().then(({ data }) => {
-      if (urlDeRecuperacion()) setRecovering(true);
+      if (recuperacionEnAcceso()) setRecovering(true);
       setSession(data.session);
       setLoading(false);
     });
