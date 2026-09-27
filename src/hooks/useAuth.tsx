@@ -53,6 +53,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (recuperacionEnAcceso()) setRecovering(true);
 
     const { data: sub } = supabase.auth.onAuthStateChange((event, nextSession) => {
+  if (event === 'PASSWORD_RECOVERY') {
+    window.location.href = '/reset-password';
+    return;
+  }
+
       setSession(nextSession);
       setLoading(false);
       if (event === "PASSWORD_RECOVERY") {
