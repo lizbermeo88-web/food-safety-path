@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccesoRouteImport } from './routes/acceso'
 import { Route as CertificadoRouteImport } from './routes/certificado'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as CursoIndexRouteImport } from './routes/curso.index'
 import { Route as CursoModuleIdIndexRouteImport } from './routes/curso.$moduleId.index'
 import { Route as CursoModuleIdTestRouteImport } from './routes/curso.$moduleId.test'
@@ -29,6 +30,11 @@ const AccesoRoute = AccesoRouteImport.update({
 const CertificadoRoute = CertificadoRouteImport.update({
   id: '/certificado',
   path: '/certificado',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CursoIndexRoute = CursoIndexRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/acceso': typeof AccesoRoute
   '/certificado': typeof CertificadoRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/curso/': typeof CursoIndexRoute
   '/curso/$moduleId/test': typeof CursoModuleIdTestRoute
   '/curso/$moduleId/': typeof CursoModuleIdIndexRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/acceso': typeof AccesoRoute
   '/certificado': typeof CertificadoRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/curso': typeof CursoIndexRoute
   '/curso/$moduleId/test': typeof CursoModuleIdTestRoute
   '/curso/$moduleId': typeof CursoModuleIdIndexRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/acceso': typeof AccesoRoute
   '/certificado': typeof CertificadoRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/curso/': typeof CursoIndexRoute
   '/curso/$moduleId/test': typeof CursoModuleIdTestRoute
   '/curso/$moduleId/': typeof CursoModuleIdIndexRoute
@@ -78,6 +87,7 @@ export interface FileRouteTypes {
     | '/'
     | '/acceso'
     | '/certificado'
+    | '/reset-password'
     | '/curso/'
     | '/curso/$moduleId/test'
     | '/curso/$moduleId/'
@@ -86,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/acceso'
     | '/certificado'
+    | '/reset-password'
     | '/curso'
     | '/curso/$moduleId/test'
     | '/curso/$moduleId'
@@ -94,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/acceso'
     | '/certificado'
+    | '/reset-password'
     | '/curso/'
     | '/curso/$moduleId/test'
     | '/curso/$moduleId/'
@@ -103,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccesoRoute: typeof AccesoRoute
   CertificadoRoute: typeof CertificadoRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   CursoIndexRoute: typeof CursoIndexRoute
   CursoModuleIdTestRoute: typeof CursoModuleIdTestRoute
   CursoModuleIdIndexRoute: typeof CursoModuleIdIndexRoute
@@ -129,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/certificado'
       fullPath: '/certificado'
       preLoaderRoute: typeof CertificadoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/curso/': {
@@ -159,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccesoRoute: AccesoRoute,
   CertificadoRoute: CertificadoRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   CursoIndexRoute: CursoIndexRoute,
   CursoModuleIdTestRoute: CursoModuleIdTestRoute,
   CursoModuleIdIndexRoute: CursoModuleIdIndexRoute,
