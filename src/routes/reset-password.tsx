@@ -25,7 +25,12 @@ function esRecuperacion() {
   if (typeof window === "undefined") return false;
   const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
   const search = new URLSearchParams(window.location.search);
-  return hash.get("type") === "recovery" || search.get("type") === "recovery";
+  return (
+    hash.get("type") === "recovery" ||
+    search.get("type") === "recovery" ||
+    hash.has("access_token") ||
+    search.has("code")
+  );
 }
 
 function ResetPassword() {
@@ -38,16 +43,19 @@ function ResetPassword() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (esRecuperacion()) {
-      setValid(true);
-      return;
-    }
+    const llegaDesdeCorreo = esRecuperacion();
+    if (llegaDesdeCorreo) setValid(true);
+
     const { data: sub } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "PASSWORD_RECOVERY") setValid(true);
+      if (event === "PASSWORD_RECOVERY" || (event === "SIGNED_IN" && llegaDesdeCorreo)) {
+        setValid(true);
+      }
     });
+
     supabase.auth.getSession().then(({ data }) => {
-      setValid((v) => v ?? (data.session ? true : false));
+      setValid((current) => current ?? Boolean(data.session));
     });
+
     return () => sub.subscription.unsubscribe();
   }, []);
 

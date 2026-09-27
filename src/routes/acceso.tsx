@@ -27,6 +27,10 @@ type Mode = "login" | "signup" | "forgot" | "update";
 const fieldClass =
   "mt-1 w-full rounded-2xl bg-card/70 px-4 py-3 text-sm font-semibold outline-1 -outline-offset-1 outline-border placeholder:text-ink-soft/60 focus:outline-2 focus:outline-mint-deep";
 
+function urlCambioContrasena() {
+  return `${window.location.origin}/reset-password`;
+}
+
 function Acceso() {
   const [mode, setMode] = useState<Mode>("login");
   const [name, setName] = useState("");
@@ -77,7 +81,7 @@ function Acceso() {
         setMessage("Te hemos enviado un correo para confirmar tu cuenta. Ábrelo y vuelve a entrar.");
     } else if (mode === "forgot") {
       const { error: err } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`,
+        redirectTo: urlCambioContrasena(),
       });
       if (err) setError(traducir(err.message));
       else
