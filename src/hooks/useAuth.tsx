@@ -26,7 +26,17 @@ function urlDeRecuperacion() {
   if (typeof window === "undefined") return false;
   const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
   const search = new URLSearchParams(window.location.search);
-  return hash.get("type") === "recovery" || search.get("type") === "recovery";
+  return (
+    hash.get("type") === "recovery" ||
+    search.get("type") === "recovery" ||
+    hash.has("access_token") ||
+    search.has("code")
+  );
+}
+
+function abrirCambioDeContrasena() {
+  if (typeof window === "undefined" || window.location.pathname === "/reset-password") return;
+  window.location.replace(`${window.location.origin}/reset-password`);
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -39,9 +49,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (urlDeRecuperacion()) setRecovering(true);
 
     const { data: sub } = supabase.auth.onAuthStateChange((event, nextSession) => {
-      if (event === "PASSWORD_RECOVERY" || urlDeRecuperacion()) setRecovering(true);
       setSession(nextSession);
       setLoading(false);
+      if (event === "PASSWORD_RECOVERY") {
+        setRecovering(true);
+        abrirCambioDeContrasena();
+      } else if (urlDeRecuperacion()) {
+        setRecovering(true);
+      }
     });
 
     supabase.auth.getSession().then(({ data }) => {
