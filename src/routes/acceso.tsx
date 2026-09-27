@@ -35,23 +35,20 @@ function Acceso() {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const { user } = useAuth();
+  const { user, recovering, clearRecovery } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const { data } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "PASSWORD_RECOVERY") {
-        setMode("update");
-        setError(null);
-        setMessage("Elige una contraseña nueva para tu cuenta.");
-      }
-    });
-    return () => data.subscription.unsubscribe();
-  }, []);
+    if (recovering) {
+      setMode("update");
+      setError(null);
+      setMessage("Elige una contraseña nueva para tu cuenta.");
+    }
+  }, [recovering]);
 
   useEffect(() => {
-    if (user && mode !== "update") void navigate({ to: "/curso" });
-  }, [user, mode, navigate]);
+    if (user && mode !== "update" && !recovering) void navigate({ to: "/curso" });
+  }, [user, mode, recovering, navigate]);
 
   function irA(next: Mode) {
     setMode(next);
@@ -83,11 +80,17 @@ function Acceso() {
         redirectTo: `${window.location.origin}/acceso`,
       });
       if (err) setError(traducir(err.message));
-      else setMessage("Si ese correo tiene cuenta, te hemos enviado un enlace para cambiar la contraseña. Revisa también el spam.");
+      else
+        setMessage(
+          "Si ese correo tiene cuenta, te hemos enviado un enlace para cambiar la contraseña. Revisa también el spam.",
+        );
     } else if (mode === "update") {
       const { error: err } = await supabase.auth.updateUser({ password });
       if (err) setError(traducir(err.message));
-      else void navigate({ to: "/curso" });
+      else {
+        clearRecovery();
+        void navigate({ to: "/curso" });
+      }
     } else {
       const { error: err } = await supabase.auth.signInWithPassword({ email, password });
       if (err) setError(traducir(err.message));
@@ -169,11 +172,7 @@ function Acceso() {
             )}
 
             {mode === "login" && (
-              <button
-                type="button"
-                onClick={() => irA("forgot")}
-                className="text-sm font-bold text-lav-deep"
-              >
+              <button type="button" onClick={() => irA("forgot")} className="text-sm font-bold text-lav-deep">
                 He olvidado mi contraseña
               </button>
             )}
@@ -210,6 +209,6 @@ function traducir(msg: string) {
   if (/Email not confirmed/i.test(msg)) return "Confirma tu correo desde el mensaje que te hemos enviado.";
   if (/Password should be/i.test(msg)) return "La contraseña debe tener al menos 6 caracteres.";
   if (/rate limit/i.test(msg)) return "Has pedido demasiados correos seguidos. Espera un minuto e inténtalo de nuevo.";
-  if (/redirect/i.test(msg)) return "Hay que autorizar esta dirección en Supabase (Authentication → URL Configuration)."
+  if (/redirect/i.test(msg)) return "Hay que autorizar esta dirección en Supabase (Authentication → URL Configuration).";
   return msg;
 }
