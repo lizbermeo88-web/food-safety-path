@@ -7,7 +7,9 @@ type AuthContextValue = {
   session: Session | null;
   loading: boolean;
   fullName: string;
+  recovering: boolean;
   signOut: () => Promise<void>;
+  clearRecovery: () => void;
 };
 
 const AuthContext = createContext<AuthContextValue>({
@@ -15,21 +17,35 @@ const AuthContext = createContext<AuthContextValue>({
   session: null,
   loading: true,
   fullName: "",
+  recovering: false,
   signOut: async () => {},
+  clearRecovery: () => {},
 });
+
+function urlDeRecuperacion() {
+  if (typeof window === "undefined") return false;
+  const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+  const search = new URLSearchParams(window.location.search);
+  return hash.get("type") === "recovery" || search.get("type") === "recovery";
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [profileName, setProfileName] = useState("");
+  const [recovering, setRecovering] = useState(() => urlDeRecuperacion());
 
   useEffect(() => {
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+    if (urlDeRecuperacion()) setRecovering(true);
+
+    const { data: sub } = supabase.auth.onAuthStateChange((event, nextSession) => {
+      if (event === "PASSWORD_RECOVERY" || urlDeRecuperacion()) setRecovering(true);
       setSession(nextSession);
       setLoading(false);
     });
 
     supabase.auth.getSession().then(({ data }) => {
+      if (urlDeRecuperacion()) setRecovering(true);
       setSession(data.session);
       setLoading(false);
     });
@@ -67,7 +83,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const fullName = profileName || metaName || user?.email?.split("@")[0] || "";
 
   const signOut = useCallback(async () => {
+    setRecovering(false);
     await supabase.auth.signOut();
+  }, []);
+
+  const clearRecovery = useCallback(() => {
+    setRecovering(false);
+    if (typeof window !== "undefined" && window.location.hash) {
+      window.history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
   }, []);
 
   const value = useMemo<AuthContextValue>(
@@ -76,9 +100,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       session,
       loading,
       fullName,
+      recovering,
       signOut,
+      clearRecovery,
     }),
-    [user, session, loading, fullName, signOut],
+    [user, session, loading, fullName, recovering, signOut, clearRecovery],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
