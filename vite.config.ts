@@ -1,10 +1,14 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
-  nitro: process.env.VERCEL ? { preset: "vercel" } : {},
   tanstackStart: {
-    server: { entry: "server" },
-  },
+    // Forzamos al enrutador a operar en modo cliente puro para evitar las funciones /_server
+    router: {
+      type: 'hash'
+    },
+    server: { entry: "server" }
+  }
 });
+
 
 
