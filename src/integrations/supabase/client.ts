@@ -49,11 +49,11 @@ function createSupabaseClient() {
     global: {
       fetch: createSupabaseFetch(SUPABASE_PUBLISHABLE_KEY),
     },
-    auth: {
-      storage: brokeredPreviewStorage(),
-      persistSession: true,
-      autoRefreshToken: true,
-    },
+   auth: {
+  persistSession: true,
+  autoRefreshToken: true,
+},
+
   });
 }
 
