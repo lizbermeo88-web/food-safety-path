@@ -137,8 +137,8 @@ function RecoveryGate() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
-    if (recovering && pathname !== "/acceso") {
-      void navigate({ to: "/acceso" });
+    if (recovering && pathname !== "/reset-password") {
+      void navigate({ to: "/reset-password" });
     }
   }, [recovering, pathname, navigate]);
 
@@ -152,7 +152,6 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <RecoveryGate />
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
       </AuthProvider>
     </QueryClientProvider>
