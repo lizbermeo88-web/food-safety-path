@@ -1,9 +1,14 @@
-// @lovable.dev/vite-tanstack-config handles the server entry point automatically.
-import { createStartHandler } from '@tanstack/start/server';
-import { createRouter } from './router';
+import { createClient } from '@supabase/supabase-js';
+import type { Database } from './types';
 
-const router = createRouter();
-export default createStartHandler({
-  createRouter: () => router,
-  getRouter: () => router,
-});
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error('[Supabase] Faltan las variables de entorno.');
+}
+
+export const supabase = createClient<Database>(
+  supabaseUrl || '',
+  supabaseAnonKey || ''
+);
