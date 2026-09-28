@@ -2,6 +2,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
+const RECOVERY_KEY = "food-safety-password-recovery";
+
 type AuthContextValue = {
   user: User | null;
   session: Session | null;
@@ -22,6 +24,22 @@ const AuthContext = createContext<AuthContextValue>({
   clearRecovery: () => {},
 });
 
+function marcarRecuperacion() {
+  try {
+    sessionStorage.setItem(RECOVERY_KEY, "1");
+  } catch {
+    /* ignore */
+  }
+}
+
+function hayMarcaRecuperacion() {
+  try {
+    return sessionStorage.getItem(RECOVERY_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
 function urlDeRecuperacion() {
   if (typeof window === "undefined") return false;
   const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
@@ -34,42 +52,28 @@ function urlDeRecuperacion() {
   );
 }
 
-function abrirCambioDeContrasena() {
-  if (typeof window === "undefined" || window.location.pathname === "/reset-password") return;
-  window.location.replace(`${window.location.origin}/reset-password`);
-}
-
-function recuperacionEnAcceso() {
-  return typeof window !== "undefined" && window.location.pathname === "/acceso" && urlDeRecuperacion();
-}
-
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [profileName, setProfileName] = useState("");
-  const [recovering, setRecovering] = useState(() => recuperacionEnAcceso());
+  const [recovering, setRecovering] = useState(() => urlDeRecuperacion() || hayMarcaRecuperacion());
 
   useEffect(() => {
-    if (recuperacionEnAcceso()) setRecovering(true);
+    const activar = () => {
+      marcarRecuperacion();
+      setRecovering(true);
+    };
+
+    if (urlDeRecuperacion() || hayMarcaRecuperacion()) activar();
 
     const { data: sub } = supabase.auth.onAuthStateChange((event, nextSession) => {
-  if (event === 'PASSWORD_RECOVERY') {
-    window.location.href = '/reset-password';
-    return;
-  }
-
+      if (event === "PASSWORD_RECOVERY" || urlDeRecuperacion()) activar();
       setSession(nextSession);
       setLoading(false);
-      if (event === "PASSWORD_RECOVERY") {
-        setRecovering(false);
-        abrirCambioDeContrasena();
-      } else if (recuperacionEnAcceso()) {
-        setRecovering(true);
-      }
     });
 
     supabase.auth.getSession().then(({ data }) => {
-      if (recuperacionEnAcceso()) setRecovering(true);
+      if (urlDeRecuperacion() || hayMarcaRecuperacion()) activar();
       setSession(data.session);
       setLoading(false);
     });
@@ -108,11 +112,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = useCallback(async () => {
     setRecovering(false);
+    try {
+      sessionStorage.removeItem(RECOVERY_KEY);
+    } catch {
+      /* ignore */
+    }
     await supabase.auth.signOut();
   }, []);
 
   const clearRecovery = useCallback(() => {
     setRecovering(false);
+    try {
+      sessionStorage.removeItem(RECOVERY_KEY);
+    } catch {
+      /* ignore */
+    }
     if (typeof window !== "undefined" && window.location.hash) {
       window.history.replaceState(null, "", window.location.pathname + window.location.search);
     }
