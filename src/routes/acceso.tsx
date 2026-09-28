@@ -22,14 +22,10 @@ export const Route = createFileRoute("/acceso")({
   component: Acceso,
 });
 
-type Mode = "login" | "signup" | "forgot" | "update";
+type Mode = "login" | "signup" | "forgot";
 
 const fieldClass =
   "mt-1 w-full rounded-2xl bg-card/70 px-4 py-3 text-sm font-semibold outline-1 -outline-offset-1 outline-border placeholder:text-ink-soft/60 focus:outline-2 focus:outline-mint-deep";
-
-function urlCambioContrasena() {
-  return `${window.location.origin}/reset-password`;
-}
 
 function Acceso() {
   const [mode, setMode] = useState<Mode>("login");
@@ -39,20 +35,16 @@ function Acceso() {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const { user, recovering, clearRecovery } = useAuth();
+  const { user, recovering } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (recovering) {
-      setMode("update");
-      setError(null);
-      setMessage("Elige una contraseña nueva para tu cuenta.");
-    }
-  }, [recovering]);
+    if (recovering) void navigate({ to: "/reset-password" });
+  }, [recovering, navigate]);
 
   useEffect(() => {
-    if (user && mode !== "update" && !recovering) void navigate({ to: "/curso" });
-  }, [user, mode, recovering, navigate]);
+    if (user && !recovering) void navigate({ to: "/curso" });
+  }, [user, recovering, navigate]);
 
   function irA(next: Mode) {
     setMode(next);
@@ -81,20 +73,13 @@ function Acceso() {
         setMessage("Te hemos enviado un correo para confirmar tu cuenta. Ábrelo y vuelve a entrar.");
     } else if (mode === "forgot") {
       const { error: err } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: urlCambioContrasena(),
+        redirectTo: `${window.location.origin}/reset-password`,
       });
       if (err) setError(traducir(err.message));
       else
         setMessage(
           "Si ese correo tiene cuenta, te hemos enviado un enlace para cambiar la contraseña. Revisa también el spam.",
         );
-    } else if (mode === "update") {
-      const { error: err } = await supabase.auth.updateUser({ password });
-      if (err) setError(traducir(err.message));
-      else {
-        clearRecovery();
-        void navigate({ to: "/curso" });
-      }
     } else {
       const { error: err } = await supabase.auth.signInWithPassword({ email, password });
       if (err) setError(traducir(err.message));
@@ -102,32 +87,12 @@ function Acceso() {
     setBusy(false);
   }
 
-  const titulo =
-    mode === "signup"
-      ? "Crear tu cuenta"
-      : mode === "forgot"
-        ? "Recuperar contraseña"
-        : mode === "update"
-          ? "Nueva contraseña"
-          : "Entrar al curso";
-
+  const titulo = mode === "signup" ? "Crear tu cuenta" : mode === "forgot" ? "Recuperar contraseña" : "Entrar al curso";
   const subtitulo =
     mode === "forgot"
       ? "Te enviaremos un correo con un enlace para elegir una contraseña nueva. Tu progreso no se pierde."
-      : mode === "update"
-        ? "Escribe una contraseña nueva (mínimo 6 caracteres). Después entrarás al curso."
-        : `Tu progreso y tu certificado quedan guardados en tu cuenta. Certificado emitido por la ${ASSOCIATION}.`;
-
-  const boton =
-    busy
-      ? "Un momento…"
-      : mode === "signup"
-        ? "Crear cuenta"
-        : mode === "forgot"
-          ? "Enviar enlace"
-          : mode === "update"
-            ? "Guardar contraseña"
-            : "Entrar";
+      : `Tu progreso y tu certificado quedan guardados en tu cuenta. Certificado emitido por la ${ASSOCIATION}.`;
+  const boton = busy ? "Un momento…" : mode === "signup" ? "Crear cuenta" : mode === "forgot" ? "Enviar enlace" : "Entrar";
 
   return (
     <Page>
@@ -149,21 +114,19 @@ function Acceso() {
                 />
               </label>
             )}
-            {mode !== "update" && (
+            <label className="block">
+              <span className="text-sm font-bold">Correo electrónico</span>
+              <input
+                required
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={fieldClass}
+              />
+            </label>
+            {mode !== "forgot" && (
               <label className="block">
-                <span className="text-sm font-bold">Correo electrónico</span>
-                <input
-                  required
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className={fieldClass}
-                />
-              </label>
-            )}
-            {(mode === "login" || mode === "signup" || mode === "update") && (
-              <label className="block">
-                <span className="text-sm font-bold">{mode === "update" ? "Contraseña nueva" : "Contraseña"}</span>
+                <span className="text-sm font-bold">Contraseña</span>
                 <input
                   required
                   type="password"
@@ -193,14 +156,12 @@ function Acceso() {
             </button>
           </form>
 
-          {mode !== "update" && (
-            <button
-              onClick={() => irA(mode === "login" ? "signup" : "login")}
-              className="mt-5 w-full text-sm font-bold text-lav-deep"
-            >
-              {mode === "signup" ? "Ya tengo cuenta, quiero entrar" : "No tengo cuenta todavía"}
-            </button>
-          )}
+          <button
+            onClick={() => irA(mode === "login" ? "signup" : "login")}
+            className="mt-5 w-full text-sm font-bold text-lav-deep"
+          >
+            {mode === "signup" ? "Ya tengo cuenta, quiero entrar" : "No tengo cuenta todavía"}
+          </button>
         </div>
       </section>
     </Page>
