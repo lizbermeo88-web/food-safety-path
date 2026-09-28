@@ -49,10 +49,13 @@ function createSupabaseClient() {
     global: {
       fetch: createSupabaseFetch(SUPABASE_PUBLISHABLE_KEY),
     },
-   auth: {
+ auth: {
   persistSession: true,
   autoRefreshToken: true,
+  detectSessionInUrl: true,
+  flowType: 'implicit'
 },
+
 
   });
 }
