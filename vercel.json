@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "src": "/_server/(.*)",
+      "dest": "/_server/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
