@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import { Page } from "@/components/site/Shell";
 
 export const Route = createFileRoute("/reset-password")({
@@ -21,43 +22,15 @@ export const Route = createFileRoute("/reset-password")({
 const fieldClass =
   "mt-1 w-full rounded-2xl bg-card/70 px-4 py-3 text-sm font-semibold outline-1 -outline-offset-1 outline-border placeholder:text-ink-soft/60 focus:outline-2 focus:outline-mint-deep";
 
-function esRecuperacion() {
-  if (typeof window === "undefined") return false;
-  const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
-  const search = new URLSearchParams(window.location.search);
-  return (
-    hash.get("type") === "recovery" ||
-    search.get("type") === "recovery" ||
-    hash.has("access_token") ||
-    search.has("code")
-  );
-}
-
 function ResetPassword() {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [valid, setValid] = useState<boolean | null>(null);
+  const { user, recovering, loading, clearRecovery } = useAuth();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const llegaDesdeCorreo = esRecuperacion();
-    if (llegaDesdeCorreo) setValid(true);
-
-    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "PASSWORD_RECOVERY" || (event === "SIGNED_IN" && llegaDesdeCorreo)) {
-        setValid(true);
-      }
-    });
-
-    supabase.auth.getSession().then(({ data }) => {
-      setValid((current) => current ?? Boolean(data.session));
-    });
-
-    return () => sub.subscription.unsubscribe();
-  }, []);
+  const valid = recovering || Boolean(user);
 
   useEffect(() => {
     if (!done) return;
@@ -83,9 +56,7 @@ function ResetPassword() {
       setError(traducir(err.message));
       return;
     }
-    if (typeof window !== "undefined" && window.location.hash) {
-      window.history.replaceState(null, "", window.location.pathname + window.location.search);
-    }
+    clearRecovery();
     setDone(true);
   }
 
@@ -95,10 +66,10 @@ function ResetPassword() {
         <div className="glass-strong rounded-[2rem] p-8 shadow-xl shadow-lav/20">
           <h1 className="text-3xl font-bold">Nueva contraseña</h1>
           <p className="mt-2 text-sm text-ink-soft">
-            Escribe una contraseña nueva para tu cuenta. Después entrarás directamente al curso.
+            Escribe una contraseña nueva para tu cuenta. Después entrarás al curso.
           </p>
 
-          {valid === false && !done ? (
+          {!loading && !valid && !done ? (
             <div className="mt-6 space-y-4">
               <p className="rounded-2xl bg-destructive/10 p-3 text-sm font-semibold text-destructive">
                 Este enlace no es válido o ha caducado. Pide uno nuevo desde la pantalla de acceso.
@@ -146,9 +117,9 @@ function ResetPassword() {
               <button
                 type="submit"
                 disabled={busy}
-                className="w-full rounded-full bg-sky-deep py-3 font-bold text-primary-foreground shadow-lg shadow-sky-deep/30 disabled:opacity-60"
+                className="w-full rounded-full bg-mint-deep py-3 font-bold text-primary-foreground shadow-lg shadow-mint-deep/30 disabled:opacity-60"
               >
-                {busy ? "Un momento…" : "Actualizar contraseña"}
+                {busy ? "Un momento…" : "Guardar contraseña"}
               </button>
             </form>
           )}
