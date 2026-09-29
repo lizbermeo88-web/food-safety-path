@@ -277,22 +277,48 @@ export const modules: Module[] = [
     },
   ],
 },
-      {
-        title: "2.2 Contaminación física",
-        blocks: [
-          {
-            kind: "p",
-            text: "Añadido por la Asociación: es la presencia en el alimento de cuerpos extraños como cristales, virutas metálicas, plásticos, piedras, astillas de madera, pelos, uñas, tiritas, pendientes, anillos o restos de embalaje.",
-          },
-          {
-            kind: "list",
-            items: [
-              "Riesgos: heridas y cortes en la boca o el aparato digestivo, atragantamiento y rechazo del producto.",
-              "Prevención: retirar joyas y objetos personales, no usar cristal en zona de manipulación, proteger luminarias, revisar envases y cribar o inspeccionar las materias primas.",
-            ],
-          },
-        ],
-      },
+   {
+  title: "2.2 Contaminación física",
+  blocks: [
+    {
+      kind: "p",
+      text: "La contaminación física es la presencia en el alimento de <strong>cuerpos extraños</strong>: objetos que no forman parte del plato y que el cliente no debería encontrarse nunca.",
+    },
+    {
+      kind: "p",
+      text: "Ejemplos habituales en hostelería: cristales, virutas metálicas, plásticos, piedras, astillas de madera, pelos, uñas, tiritas, pendientes, anillos, grapas o restos de embalaje.",
+    },
+    {
+      kind: "table",
+      head: ["De dónde sale", "Qué puede caer al alimento", "Qué puede pasar"],
+      rows: [
+        ["El manipulador", "Pelo, uña, pendiente, anillo, tirita, botón", "Asco, atragantamiento, reclamación"],
+        ["La cocina y el local", "Cristal de vaso o lámpara, tornillo, viruta, plástico", "Corte en boca o digestivo"],
+        ["La materia prima y el envase", "Piedra, hueso, grapa, trozo de caja o film", "Diente roto, rechazo del plato"],
+      ],
+    },
+    {
+      kind: "p",
+      text: "No es una intoxicación (eso suele ser contaminación biológica). El daño aquí es <strong>mecánico</strong>: corta, pincha o atraganta. Aunque el objeto no enferme, el establecimiento responde igual ante el cliente y la inspección.",
+    },
+    {
+      kind: "list",
+      items: [
+        "<strong>Sin joyas en el puesto:</strong> quita reloj, pulseras, pendientes y anillos. Acumulan suciedad y pueden caer al plato.",
+        "<strong>Pelo recogido y cubierto.</strong> Una horquilla o un pelo es contaminación física y también arrastra microorganismos.",
+        "<strong>Tiritas de color vivo</strong> (azul o similar, que no se confunda con el alimento) y guante encima si hay herida.",
+        "<strong>Cuidado con el cristal:</strong> si se rompe un vaso o una lámpara, para el servicio en esa zona, retira alimentos expuestos y no recojas cristales con la mano desnuda.",
+        "<strong>Revisa lo que entra:</strong> abre cajas lejos del plato, quita grapas y plásticos y mira las verduras y legumbres por si hay piedras.",
+        "<strong>Luminarias protegidas</strong> y utensilios enteros: un vaso estrellado o un cubierto roto no se usa.",
+      ],
+    },
+    {
+      kind: "note",
+      title: "Regla práctica",
+      text: "Todo lo que llevas encima y no es uniforme puede acabar en el plato. Antes de entrar en cocina: nada de joyas, pelo cubierto, heridas tapadas con tirita visible y un vistazo a vasos, lámparas y envases.",
+    },
+  ],
+},
       {
         title: "2.3 Contaminación química",
         blocks: [
