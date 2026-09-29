@@ -98,7 +98,7 @@ export const modules: Module[] = [
             kind: "list",
             items: [
               "La supervisión y la instrucción o formación de los manipuladores de productos alimenticios en cuestiones de higiene alimentaria, de acuerdo con su actividad laboral.",
-              "Que quienes tengan a su cargo el desarrollo y mantenimiento del procedimiento basado en los principios de <a href= https://www.ambialia.es/que-es-appcc" target="_blank">APPCC</strong></a> (Artículo 5) o la aplicación de las guías de prácticas correctas de higiene hayan recibido una formación adecuada en lo tocante a la aplicación de los principios del APPCC.",
+              "Que quienes tengan a su cargo el desarrollo y mantenimiento del procedimiento basado en los principios de <strong>APPCC</strong> (Artículo 5) o la aplicación de las guías de prácticas correctas de higiene hayan recibido una formación adecuada en lo tocante a la aplicación de los principios del <strong>APPCC.</strong>",
               "El cumplimiento de todos los requisitos de la legislación nacional relativa a los programas de formación para los trabajadores de determinados sectores alimentarios.",
             ],
           },
@@ -117,7 +117,7 @@ export const modules: Module[] = [
           },
           {
             kind: "p",
-            text: "A su vez, las empresas alimentarias, para poder proporcionar las garantías de que no comercializan alimentos que no son seguros, deben implantar sistemas de autocontrol basados en el análisis de peligros y puntos de control críticos (APPCC). En estos sistemas de autocontrol deben incluir la planificación de la formación que tienen establecida para los manipuladores de la empresa alimentaria.",
+            text: "A su vez, las empresas alimentarias, para poder proporcionar las garantías de que no comercializan alimentos que no son seguros, deben <strong>implantar sistemas de autocontrol basados en el análisis de peligros y puntos de control críticos (APPCC).</strong> En estos sistemas de autocontrol deben incluir la planificación de la formación que tienen establecida para los manipuladores de la empresa alimentaria.",
           },
           {
             kind: "p",
@@ -126,7 +126,7 @@ export const modules: Module[] = [
           {
             kind: "note",
             title: "Cultura de seguridad alimentaria",
-            text: "Añadido por la Asociación para completar el módulo: la cultura de seguridad alimentaria significa que la dirección da ejemplo, que se habla de higiene en el día a día, que cualquier trabajador puede avisar de un problema sin miedo y que las incidencias se registran y se corrigen. La normativa marca el mínimo; la cultura es lo que hace que se cumpla cada día.",
+            text: "La cultura de seguridad alimentaria significa que la dirección da ejemplo, que se habla de higiene en el día a día, que cualquier trabajador puede avisar de un problema sin miedo y que las incidencias se registran y se corrigen. La normativa marca el mínimo; la cultura es lo que hace que se cumpla cada día.",
           },
         ],
       },
