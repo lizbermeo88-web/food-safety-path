@@ -152,7 +152,40 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <RecoveryGate />
-        <Outlet />
+        <div className="min-h-screen flex flex-col">
+          <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+            <nav
+              className="flex items-center justify-between gap-3 px-3 py-2 sm:px-4"
+              aria-label="Navegación del historial"
+            >
+              <button
+                type="button"
+                onClick={() => window.history.back()}
+                className="inline-flex items-center justify-center min-h-11 px-4 py-2 rounded-lg bg-gray-100 text-sm font-medium text-gray-800 hover:bg-gray-200 active:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"
+                aria-label="Volver a la página anterior"
+              >
+                ← Atrás
+              </button>
+
+              <span className="text-xs text-gray-500 uppercase tracking-wider text-center truncate">
+                Aula Virtual AEHAC
+              </span>
+
+              <button
+                type="button"
+                onClick={() => window.history.forward()}
+                className="inline-flex items-center justify-center min-h-11 px-4 py-2 rounded-lg bg-gray-100 text-sm font-medium text-gray-800 hover:bg-gray-200 active:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"
+                aria-label="Ir a la página siguiente"
+              >
+                Adelante →
+              </button>
+            </nav>
+          </header>
+
+          <main className="flex-1">
+            <Outlet />
+          </main>
+        </div>
       </AuthProvider>
     </QueryClientProvider>
   );
