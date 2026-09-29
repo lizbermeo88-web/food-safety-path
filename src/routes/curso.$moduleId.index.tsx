@@ -45,16 +45,6 @@ function Bloque({ block }: { block: Block }) {
         <p className="mt-1 leading-relaxed text-ink-soft">{block.text}</p>
       </div>
     );
-  if (block.kind === "image")
-    return (
-      <figure className="mt-5 overflow-hidden rounded-2xl bg-card/70 p-2">
-        <img
-          src={block.src}
-          alt={block.alt}
-          className="w-full h-auto rounded-xl"
-        />
-      </figure>
-    );
   return (
     <div className="mt-5 overflow-x-auto rounded-2xl bg-card/70 p-1">
       <table className="w-full text-left text-sm">
