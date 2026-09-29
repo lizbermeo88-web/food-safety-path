@@ -1,9 +1,13 @@
+Aquí tienes el código completo de `course.ts` listo para copiar y pegar, con la extensión `.jpg` en la importación de la infografía:
+
+```typescript
 import mod1 from "@/assets/mod-1-legal.jpg";
 import mod2 from "@/assets/mod-2-peligros.jpg";
 import mod3 from "@/assets/mod-3-etas.jpg";
 import mod4 from "@/assets/mod-4-higiene.jpg";
 import mod5 from "@/assets/mod-5-frio.jpg";
 import mod6 from "@/assets/mod-6-alergenos.jpg";
+import infografiaContaminacionFisica from "@/assets/infografia-contaminacion-fisica.jpg";
 
 export const ASSOCIATION = "Asociación de Empresarios de Hostelería Álvaro Cunqueiro";
 export const PASS_MARK = 80;
@@ -12,7 +16,8 @@ export type Block =
   | { kind: "p"; text: string }
   | { kind: "list"; items: string[] }
   | { kind: "note"; title: string; text: string }
-  | { kind: "table"; head: string[]; rows: string[][] };
+  | { kind: "table"; head: string[]; rows: string[][] }
+  | { kind: "image"; src: string; alt: string };
 
 export type Section = {
   title: string;
@@ -239,86 +244,91 @@ export const modules: Module[] = [
     duration: "40 min",
     sections: [
       {
-  title: "2.1 Higiene alimentaria y calidad higiénica",
-  blocks: [
-    {
-      kind: "p",
-      text: "La calidad higiénica de un alimento depende de la calidad higiénica de la materia prima y de la manipulación correcta del mismo.",
-    },
-    {
-      kind: "p",
-      text: "La higiene alimentaria es el conjunto de medidas para que el alimento llegue al cliente <strong>seguro</strong>: sin suciedad, sin productos químicos peligrosos y sin microorganismos que puedan enfermar.",
-    },
-    {
-      kind: "p",
-      text: "La contaminación de un alimento es la presencia en él de cualquier sustancia u organismo no deseado. Puede ser de <strong>3 tipos: física, química y biológica</strong>. En los siguientes apartados verás cada una con detalle.",
-    },
-    {
-      kind: "table",
-      head: ["Tipo", "¿Qué es?", "Ejemplo en cocina"],
-      rows: [
-        ["Física", "Un objeto que no debería estar en el plato", "Pelo, cristal, tirita, anillo, plástico"],
-        ["Química", "Una sustancia que no es alimento", "Lejía, insecticida, aceite de máquina"],
-        ["Biológica", "Seres vivos que no se ven a simple vista", "Bacterias, virus, mohos, parásitos"],
-      ],
-    },
-    {
-      kind: "list",
-      items: [
-        "<strong>Se ve:</strong> casi siempre es contaminación física (un pelo, un cristal, un pendiente).",
-        "<strong>No se ve y puede oler fuerte:</strong> piensa en química (lejía, desinfectante mal aclarado).",
-        "<strong>No se ve y el alimento parece normal:</strong> piensa en biológica. Es la más peligrosa en hostelería.",
-      ],
-    },
-    {
-      kind: "note",
-      title: "Para recordar en el puesto de trabajo",
-      text: "Un alimento puede oler bien, verse bien y saborear bien… y estar contaminado. La calidad higiénica no se decide «a ojo»: se consigue con materia prima segura, manos limpias, utensilios limpios y separación de crudos y cocinados.",
-    },
-  ],
-},
-   {
-  title: "2.2 Contaminación física",
-  blocks: [
-    {
-      kind: "p",
-      text: "La contaminación física es la presencia en el alimento de <strong>cuerpos extraños</strong>: objetos que no forman parte del plato y que el cliente no debería encontrarse nunca.",
-    },
-    {
-      kind: "p",
-      text: "Ejemplos habituales en hostelería: cristales, virutas metálicas, plásticos, piedras, astillas de madera, pelos, uñas, tiritas, pendientes, anillos, grapas o restos de embalaje.",
-    },
-    {
-      kind: "table",
-      head: ["De dónde sale", "Qué puede caer al alimento", "Qué puede pasar"],
-      rows: [
-        ["El manipulador", "Pelo, uña, pendiente, anillo, tirita, botón", "Asco, atragantamiento, reclamación"],
-        ["La cocina y el local", "Cristal de vaso o lámpara, tornillo, viruta, plástico", "Corte en boca o digestivo"],
-        ["La materia prima y el envase", "Piedra, hueso, grapa, trozo de caja o film", "Diente roto, rechazo del plato"],
-      ],
-    },
-    {
-      kind: "p",
-      text: "No es una intoxicación (eso suele ser contaminación biológica). El daño aquí es <strong>mecánico</strong>: corta, pincha o atraganta. Aunque el objeto no enferme, el establecimiento responde igual ante el cliente y la inspección.",
-    },
-    {
-      kind: "list",
-      items: [
-        "<strong>Sin joyas en el puesto:</strong> quita reloj, pulseras, pendientes y anillos. Acumulan suciedad y pueden caer al plato.",
-        "<strong>Pelo recogido y cubierto.</strong> Una horquilla o un pelo es contaminación física y también arrastra microorganismos.",
-        "<strong>Tiritas de color vivo</strong> (azul o similar, que no se confunda con el alimento) y guante encima si hay herida.",
-        "<strong>Cuidado con el cristal:</strong> si se rompe un vaso o una lámpara, para el servicio en esa zona, retira alimentos expuestos y no recojas cristales con la mano desnuda.",
-        "<strong>Revisa lo que entra:</strong> abre cajas lejos del plato, quita grapas y plásticos y mira las verduras y legumbres por si hay piedras.",
-        "<strong>Luminarias protegidas</strong> y utensilios enteros: un vaso estrellado o un cubierto roto no se usa.",
-      ],
-    },
-    {
-      kind: "note",
-      title: "Regla práctica",
-      text: "Todo lo que llevas encima y no es uniforme puede acabar en el plato. Antes de entrar en cocina: nada de joyas, pelo cubierto, heridas tapadas con tirita visible y un vistazo a vasos, lámparas y envases.",
-    },
-  ],
-},
+        title: "2.1 Higiene alimentaria y calidad higiénica",
+        blocks: [
+          {
+            kind: "p",
+            text: "La calidad higiénica de un alimento depende de la calidad higiénica de la materia prima y de la manipulación correcta del mismo.",
+          },
+          {
+            kind: "p",
+            text: "La higiene alimentaria es el conjunto de medidas para que el alimento llegue al cliente <strong>seguro</strong>: sin suciedad, sin productos químicos peligrosos y sin microorganismos que puedan enfermar.",
+          },
+          {
+            kind: "p",
+            text: "La contaminación de un alimento es la presencia en él de cualquier sustancia u organismo no deseado. Puede ser de <strong>3 tipos: física, química y biológica</strong>. En los siguientes apartados verás cada una con detalle.",
+          },
+          {
+            kind: "table",
+            head: ["Tipo", "¿Qué es?", "Ejemplo en cocina"],
+            rows: [
+              ["Física", "Un objeto que no debería estar en el plato", "Pelo, cristal, tirita, anillo, plástico"],
+              ["Química", "Una sustancia que no es alimento", "Lejía, insecticida, aceite de máquina"],
+              ["Biológica", "Seres vivos que no se ven a simple vista", "Bacterias, virus, mohos, parásitos"],
+            ],
+          },
+          {
+            kind: "list",
+            items: [
+              "<strong>Se ve:</strong> casi siempre es contaminación física (un pelo, un cristal, un pendiente).",
+              "<strong>No se ve y puede oler fuerte:</strong> piensa en química (lejía, desinfectante mal aclarado).",
+              "<strong>No se ve y el alimento parece normal:</strong> piensa en biológica. Es la más peligrosa en hostelería.",
+            ],
+          },
+          {
+            kind: "note",
+            title: "Para recordar en el puesto de trabajo",
+            text: "Un alimento puede oler bien, verse bien y saborear bien… y estar contaminado. La calidad higiénica no se decide «a ojo»: se consigue con materia prima segura, manos limpias, utensilios limpios y separación de crudos y cocinados.",
+          },
+        ],
+      },
+      {
+        title: "2.2 Contaminación física",
+        blocks: [
+          {
+            kind: "p",
+            text: "La contaminación física es la presencia en el alimento de <strong>cuerpos extraños</strong>: objetos que no forman parte del plato y que el cliente no debería encontrarse nunca.",
+          },
+          {
+            kind: "p",
+            text: "Ejemplos habituales en hostelería: cristales, virutas metálicas, plásticos, piedras, astillas de madera, pelos, uñas, tiritas, pendientes, anillos, grapas o restos de embalaje.",
+          },
+          {
+            kind: "table",
+            head: ["De dónde sale", "Qué puede caer al alimento", "Qué puede pasar"],
+            rows: [
+              ["El manipulador", "Pelo, uña, pendiente, anillo, tirita, botón", "Asco, atragantamiento, reclamación"],
+              ["La cocina y el local", "Cristal de vaso o lámpara, tornillo, viruta, plástico", "Corte en boca o digestivo"],
+              ["La materia prima y el envase", "Piedra, hueso, grapa, trozo de caja o film", "Diente roto, rechazo del plato"],
+            ],
+          },
+          {
+            kind: "p",
+            text: "No es una intoxicación (eso suele ser contaminación biológica). El daño aquí es <strong>mecánico</strong>: corta, pincha o atraganta. Aunque el objeto no enferme, el establecimiento responde igual ante el cliente y la inspección.",
+          },
+          {
+            kind: "list",
+            items: [
+              "<strong>Sin joyas en el puesto:</strong> quita reloj, pulseras, pendientes y anillos. Acumulan suciedad y pueden caer al plato.",
+              "<strong>Pelo recogido y cubierto.</strong> Una horquilla o un pelo es contaminación física y también arrastra microorganismos.",
+              "<strong>Tiritas de color vivo</strong> (azul o similar, que no se confunda con el alimento) y guante encima si hay herida.",
+              "<strong>Cuidado con el cristal:</strong> si se rompe un vaso o una lámpara, para el servicio en esa zona, retira alimentos expuestos y no recojas cristales con la mano desnuda.",
+              "<strong>Revisa lo que entra:</strong> abre cajas lejos del plato, quita grapas y plásticos y mira las verduras y legumbres por si hay piedras.",
+              "<strong>Luminarias protegidas</strong> y utensilios enteros: un vaso estrellado o un cubierto roto no se usa.",
+            ],
+          },
+          {
+            kind: "image",
+            src: infografiaContaminacionFisica,
+            alt: "Infografía: prevención de la contaminación física en hostelería",
+          },
+          {
+            kind: "note",
+            title: "Regla práctica",
+            text: "Todo lo que llevas encima y no es uniforme puede acabar en el plato. Antes de entrar en cocina: nada de joyas, pelo cubierto, heridas tapadas con tirita visible y un vistazo a vasos, lámparas y envases.",
+          },
+        ],
+      },
       {
         title: "2.3 Contaminación química",
         blocks: [
@@ -701,616 +711,9 @@ export const modules: Module[] = [
     summary: "Lavado de manos, ropa de trabajo, estado de salud y hábitos correctos en la cocina.",
     image: mod4,
     duration: "30 min",
-    sections: [
-      {
-        title: "4.1 Las manos: la medida más eficaz",
-        blocks: [
-          {
-            kind: "p",
-            text: "Añadido por la Asociación para completar el módulo. Las manos son la principal vía de transmisión de microorganismos a los alimentos. Su lavado correcto es la medida preventiva más eficaz y más barata.",
-          },
-          {
-            kind: "list",
-            items: [
-              "Mojar las manos con agua templada y aplicar jabón.",
-              "Frotar palmas, dorso, entre los dedos, pulgares, uñas y muñecas durante al menos 20 segundos.",
-              "Aclarar con abundante agua.",
-              "Secar con papel de un solo uso o aire; nunca con el paño de cocina ni con el delantal.",
-            ],
-          },
-          {
-            kind: "p",
-            text: "Hay que lavarse las manos al incorporarse al puesto, después de ir al servicio, al cambiar de tarea, tras manipular alimentos crudos, residuos, dinero, envases, móviles o productos de limpieza, y tras toser, estornudar o tocarse la cara o el pelo.",
-          },
-          {
-            kind: "note",
-            title: "Los guantes no sustituyen al lavado",
-            text: "Si se usan guantes, deben cambiarse al cambiar de tarea o de alimento y siempre que se rompan. Unos guantes sucios contaminan igual que unas manos sucias.",
-          },
-        ],
-      },
-      {
-        title: "4.2 Aspecto e indumentaria",
-        blocks: [
-          {
-            kind: "list",
-            items: [
-              "Ropa de trabajo limpia, de uso exclusivo para la actividad y de color claro.",
-              "Cubrecabeza que recoja todo el pelo; barba protegida cuando proceda.",
-              "Calzado de trabajo cerrado y antideslizante.",
-              "Uñas cortas, limpias y sin esmalte ni uñas postizas.",
-              "Sin anillos, pulseras, relojes, pendientes colgantes ni piercings visibles en zona de manipulación.",
-              "No usar perfumes intensos que puedan transferir olores a los alimentos.",
-            ],
-          },
-        ],
-      },
-      {
-        title: "4.3 Estado de salud y lesiones",
-        blocks: [
-          {
-            kind: "p",
-            text: "El manipulador que presente diarrea, vómitos, fiebre, infección de garganta, lesiones cutáneas infectadas o supuración de oídos, ojos o nariz debe comunicarlo al responsable y no manipular alimentos hasta su recuperación.",
-          },
-          {
-            kind: "list",
-            items: [
-              "Las heridas y cortes se cubren con apósito impermeable de color llamativo y, sobre él, un guante.",
-              "No se debe manipular alimentos con lesiones supurantes en las manos.",
-              "Cualquier síntoma digestivo debe comunicarse aunque sea leve.",
-            ],
-          },
-        ],
-      },
-      {
-        title: "4.4 Hábitos correctos durante el trabajo",
-        blocks: [
-          {
-            kind: "list",
-            items: [
-              "No fumar, comer, mascar chicle ni beber en la zona de manipulación.",
-              "No toser ni estornudar sobre los alimentos; hacerlo sobre un pañuelo desechable o el codo y lavarse después las manos.",
-              "No probar la comida con el dedo ni con la misma cuchara varias veces.",
-              "No secar las manos ni los utensilios con el paño del hombro ni con el delantal.",
-              "Usar pinzas o utensilios en lugar de las manos para los alimentos listos para consumo.",
-              "Mantener el móvil fuera de la zona de manipulación.",
-            ],
-          },
-        ],
-      },
-    ],
-    quiz: [
-      {
-        type: "multiple",
-        question: "¿Cuánto tiempo, como mínimo, debe durar el frotado en el lavado de manos?",
-        options: ["3 segundos", "20 segundos", "5 minutos", "El tiempo que haga falta para enjuagar"],
-        correct: 1,
-        explanation: "Al menos 20 segundos, incluyendo uñas, entre los dedos y muñecas.",
-      },
-      {
-        type: "boolean",
-        question: "Llevar guantes permite prescindir del lavado de manos.",
-        options: VF,
-        correct: 1,
-        explanation: "Los guantes no sustituyen al lavado y deben cambiarse al cambiar de tarea.",
-      },
-      {
-        type: "multiple",
-        question: "¿Con qué se deben secar las manos?",
-        options: [
-          "Con papel de un solo uso o aire",
-          "Con el delantal",
-          "Con el paño de cocina",
-          "Al aire, sacudiéndolas sobre la encimera",
-        ],
-        correct: 0,
-        explanation: "Nunca con el paño de cocina ni con el delantal.",
-      },
-      {
-        type: "multiple",
-        question: "Un corte en un dedo debe cubrirse con…",
-        options: [
-          "Apósito impermeable de color llamativo y un guante encima",
-          "Una servilleta de papel",
-          "Nada, si no sangra",
-          "Film transparente",
-        ],
-        correct: 0,
-        explanation: "El color llamativo facilita detectarlo si se desprende.",
-      },
-      {
-        type: "boolean",
-        question: "Un manipulador con diarrea o vómitos debe comunicarlo y no manipular alimentos.",
-        options: VF,
-        correct: 0,
-        explanation: "Debe comunicarlo al responsable y apartarse de la manipulación hasta recuperarse.",
-      },
-      {
-        type: "multiple",
-        question: "¿Cuál de estas prácticas es correcta en zona de manipulación?",
-        options: [
-          "Usar pinzas para los alimentos listos para consumo",
-          "Mascar chicle mientras se emplata",
-          "Llevar el móvil en la mano",
-          "Probar la salsa con el dedo",
-        ],
-        correct: 0,
-        explanation: "Se evita el contacto directo de las manos con alimentos listos para consumo.",
-      },
-      {
-        type: "multiple",
-        question: "Respecto a las uñas, lo correcto es llevarlas…",
-        options: [
-          "Cortas, limpias y sin esmalte",
-          "Largas pero limpias",
-          "Con esmalte transparente",
-          "Postizas, si están bien pegadas",
-        ],
-        correct: 0,
-        explanation: "El esmalte y las uñas postizas pueden desprenderse y acumulan suciedad.",
-      },
-      {
-        type: "boolean",
-        question: "Se puede usar la ropa de calle para trabajar si está limpia.",
-        options: VF,
-        correct: 1,
-        explanation: "La ropa de trabajo debe ser de uso exclusivo para la actividad.",
-      },
-      {
-        type: "multiple",
-        question: "Después de tocar dinero o envases, el manipulador debe…",
-        options: [
-          "Lavarse las manos antes de volver a tocar alimentos",
-          "Frotarse las manos en el delantal",
-          "Seguir trabajando con normalidad",
-          "Ponerse guantes sobre las manos sucias",
-        ],
-        correct: 0,
-        explanation: "El cambio de tarea siempre exige lavado de manos.",
-      },
-      {
-        type: "multiple",
-        question: "¿Qué debe hacerse al toser o estornudar en cocina?",
-        options: [
-          "Hacerlo sobre un pañuelo desechable o el codo y lavarse las manos",
-          "Girar la cabeza hacia el alimento",
-          "Taparse la boca con la mano y continuar",
-          "Nada en particular",
-        ],
-        correct: 0,
-        explanation: "Y después siempre lavado de manos.",
-      },
-    ],
-  },
-  {
-    id: 5,
-    tone: "sky",
-    title: "Limpieza, desinfección, conservación y cadena de frío",
-    summary: "Plan de limpieza, temperaturas de referencia, descongelación y control de la cadena de frío.",
-    image: mod5,
-    duration: "40 min",
-    sections: [
-      {
-        title: "5.1 Limpieza y desinfección no son lo mismo",
-        blocks: [
-          {
-            kind: "p",
-            text: "Añadido por la Asociación para completar el módulo. Limpiar es eliminar la suciedad visible, los restos de alimentos y la grasa. Desinfectar es reducir los microorganismos presentes hasta niveles que no supongan un riesgo. Sobre una superficie sucia el desinfectante no funciona: primero se limpia y después se desinfecta.",
-          },
-          {
-            kind: "list",
-            items: [
-              "Retirar los restos sólidos.",
-              "Lavar con agua y detergente, frotando.",
-              "Aclarar con agua potable.",
-              "Aplicar el desinfectante respetando dosis y tiempo de contacto.",
-              "Aclarar si el producto lo requiere y dejar secar al aire.",
-            ],
-          },
-          {
-            kind: "note",
-            title: "Plan de limpieza",
-            text: "Debe indicar qué se limpia, con qué producto y dosis, con qué frecuencia, quién es el responsable y cómo se registra. Los útiles de limpieza también se limpian, se secan y se guardan fuera de la zona de alimentos.",
-          },
-        ],
-      },
-      {
-        title: "5.2 Temperaturas de referencia",
-        blocks: [
-          {
-            kind: "table",
-            head: ["Situación", "Temperatura"],
-            rows: [
-              ["Refrigeración de alimentos frescos y platos preparados", "Entre 0 °C y 5 °C (según producto, hasta 8 °C)"],
-              ["Congelación y ultracongelación", "−18 °C o inferior"],
-              ["Cocinado en el centro del producto", "Al menos 65 °C, preferible 75 °C"],
-              ["Mantenimiento en caliente", "65 °C o más"],
-              ["Zona de peligro", "Entre 5 °C y 65 °C"],
-            ],
-          },
-          {
-            kind: "p",
-            text: "La temperatura se mide con termómetro-sonda en el centro del producto, desinfectando la sonda entre mediciones, y se anota en el registro correspondiente.",
-          },
-        ],
-      },
-      {
-        title: "5.3 La cadena de frío",
-        blocks: [
-          {
-            kind: "p",
-            text: "La cadena de frío es el mantenimiento continuado de la temperatura de refrigeración o congelación desde el origen del alimento hasta su consumo. Cada interrupción acelera el crecimiento microbiano y reduce la vida útil.",
-          },
-          {
-            kind: "list",
-            items: [
-              "Comprobar la temperatura en la recepción de mercancía y rechazar lo que llegue fuera de temperatura.",
-              "Guardar de inmediato los productos refrigerados y congelados; no dejarlos esperando en el muelle o la cocina.",
-              "No sobrecargar las cámaras y permitir la circulación del aire.",
-              "Enfriar los platos cocinados con rapidez antes de refrigerarlos, en recipientes poco profundos.",
-              "Un alimento descongelado no debe volver a congelarse en crudo.",
-            ],
-          },
-        ],
-      },
-      {
-        title: "5.4 Descongelación, conservación y rotación",
-        blocks: [
-          {
-            kind: "list",
-            items: [
-              "Descongelar en refrigeración, dentro de un recipiente que recoja los líquidos, nunca a temperatura ambiente.",
-              "Cubrir y etiquetar todos los alimentos almacenados con su fecha.",
-              "Aplicar el sistema FIFO: lo primero que entra es lo primero que sale, respetando fechas de caducidad y de consumo preferente.",
-              "No conservar alimentos en las latas o envases abiertos; pasarlos a recipientes de uso alimentario tapados.",
-              "El pescado destinado a consumo en crudo o casi crudo debe congelarse previamente para prevenir el Anisakis.",
-            ],
-          },
-          {
-            kind: "note",
-            title: "Fecha de caducidad y consumo preferente",
-            text: "La fecha de caducidad marca un límite de seguridad: pasada esa fecha el alimento no debe consumirse. El consumo preferente indica pérdida de cualidades, no necesariamente riesgo.",
-          },
-        ],
-      },
-    ],
-    quiz: [
-      {
-        type: "multiple",
-        question: "¿Cuál es el orden correcto?",
-        options: [
-          "Retirar restos, lavar con detergente, aclarar, desinfectar",
-          "Desinfectar y después lavar",
-          "Solo desinfectar, es más rápido",
-          "Aclarar, desinfectar y dejar los restos",
-        ],
-        correct: 0,
-        explanation: "Sobre una superficie sucia el desinfectante no resulta eficaz.",
-      },
-      {
-        type: "multiple",
-        question: "La temperatura de conservación de los congelados debe ser…",
-        options: ["−18 °C o inferior", "0 °C", "−5 °C", "4 °C"],
-        correct: 0,
-        explanation: "Congelación y ultracongelación a −18 °C o menos.",
-      },
-      {
-        type: "multiple",
-        question: "El cocinado debe alcanzar en el centro del producto al menos…",
-        options: ["45 °C", "55 °C", "65 °C", "100 °C"],
-        correct: 2,
-        explanation: "Al menos 65 °C, siendo preferible 75 °C en el centro del alimento.",
-      },
-      {
-        type: "boolean",
-        question: "Un alimento descongelado puede volver a congelarse en crudo sin problema.",
-        options: VF,
-        correct: 1,
-        explanation: "No debe recongelarse en crudo; se cocina antes si procede.",
-      },
-      {
-        type: "multiple",
-        question: "La forma correcta de descongelar es…",
-        options: [
-          "En refrigeración, en un recipiente que recoja los líquidos",
-          "A temperatura ambiente en la encimera",
-          "Al sol",
-          "En agua caliente varias horas",
-        ],
-        correct: 0,
-        explanation: "La descongelación en refrigeración evita la zona de peligro.",
-      },
-      {
-        type: "multiple",
-        question: "El sistema FIFO significa…",
-        options: [
-          "Lo primero que entra es lo primero que sale",
-          "Lo último que entra sale primero",
-          "Congelar todo al llegar",
-          "Servir primero los platos más caros",
-        ],
-        correct: 0,
-        explanation: "Garantiza la rotación correcta de existencias.",
-      },
-      {
-        type: "boolean",
-        question: "La fecha de caducidad indica solo una pérdida de cualidades del alimento.",
-        options: VF,
-        correct: 1,
-        explanation: "Eso corresponde al consumo preferente; la caducidad es un límite de seguridad.",
-      },
-      {
-        type: "multiple",
-        question: "El mantenimiento en caliente de platos cocinados debe hacerse a…",
-        options: ["65 °C o más", "40 °C", "50 °C", "Temperatura ambiente"],
-        correct: 0,
-        explanation: "Por debajo de 65 °C se entra en la zona de peligro.",
-      },
-      {
-        type: "multiple",
-        question: "¿Qué debe recogerse en el plan de limpieza?",
-        options: [
-          "Qué se limpia, con qué producto y dosis, frecuencia, responsable y registro",
-          "Solo el nombre del producto utilizado",
-          "El horario del personal",
-          "Las ventas del día",
-        ],
-        correct: 0,
-        explanation: "El plan de limpieza forma parte del sistema de autocontrol.",
-      },
-      {
-        type: "boolean",
-        question: "Los platos cocinados deben enfriarse con rapidez antes de refrigerarlos.",
-        options: VF,
-        correct: 0,
-        explanation: "El enfriamiento rápido en recipientes poco profundos reduce el tiempo en zona de peligro.",
-      },
-    ],
-  },
-  {
-    id: 6,
-    tone: "lav",
-    title: "Alérgenos, trazabilidad y nociones de APPCC",
-    summary: "Los 14 alérgenos de declaración obligatoria, información al cliente, trazabilidad y principios del APPCC.",
-    image: mod6,
-    duration: "45 min",
-    sections: [
-      {
-        title: "6.1 Alergias e intolerancias",
-        blocks: [
-          {
-            kind: "p",
-            text: "Añadido por la Asociación para completar el módulo, junto con la cartelería de alérgenos aportada por la Asociación. La alergia alimentaria es una reacción del sistema inmunitario frente a una proteína del alimento; puede ser grave e incluso mortal (shock anafiláctico) con cantidades mínimas. La intolerancia es una dificultad para digerir o metabolizar un componente, con síntomas generalmente digestivos y dependientes de la cantidad.",
-          },
-        ],
-      },
-      {
-        title: "6.2 Los 14 alérgenos de declaración obligatoria",
-        blocks: [
-          {
-            kind: "p",
-            text: "El Reglamento (UE) 1169/2011 obliga a informar de la presencia de estas 14 sustancias, también en los alimentos servidos sin envasar:",
-          },
-          {
-            kind: "list",
-            items: [
-              "Cereales que contengan gluten (trigo, centeno, cebada, avena, espelta, kamut).",
-              "Crustáceos y productos a base de crustáceos.",
-              "Huevos y productos a base de huevo.",
-              "Pescado y productos a base de pescado.",
-              "Cacahuetes y productos a base de cacahuetes.",
-              "Soja y productos a base de soja.",
-              "Leche y sus derivados, incluida la lactosa.",
-              "Frutos de cáscara: almendras, avellanas, nueces, anacardos, pistachos, etc.",
-              "Apio y productos derivados.",
-              "Mostaza y productos derivados.",
-              "Granos de sésamo y productos a base de sésamo.",
-              "Dióxido de azufre y sulfitos en concentraciones superiores a 10 mg/kg o 10 mg/l.",
-              "Altramuces y productos a base de altramuces.",
-              "Moluscos y productos a base de moluscos.",
-            ],
-          },
-          {
-            kind: "note",
-            title: "Información al cliente",
-            text: "La información sobre alérgenos debe estar disponible por escrito y ser accesible: carta, ficha por plato, carpeta o cartel. No basta con que un camarero lo recuerde de memoria. Ante la duda, nunca se improvisa: se consulta la ficha o se dice claramente que no se puede garantizar.",
-          },
-        ],
-      },
-      {
-        title: "6.3 Cómo evitar el contacto cruzado por alérgenos",
-        blocks: [
-          {
-            kind: "list",
-            items: [
-              "Lavarse las manos y cambiar de guantes antes de preparar un plato para una persona alérgica.",
-              "Utilizar utensilios, tablas, recipientes y superficies limpios y, si es posible, exclusivos.",
-              "No freír en el mismo aceite alimentos con y sin alérgeno.",
-              "Almacenar los productos sin alérgeno tapados y por encima del resto.",
-              "Leer siempre la etiqueta de cada lote: la receta del fabricante puede cambiar.",
-              "Servir el plato del cliente alérgico identificado y, preferiblemente, en primer lugar.",
-            ],
-          },
-        ],
-      },
-      {
-        title: "6.4 Trazabilidad",
-        blocks: [
-          {
-            kind: "p",
-            text: "La trazabilidad es la capacidad de seguir el rastro de un alimento a lo largo de toda la cadena: de dónde viene, qué se ha hecho con él y a dónde ha ido. Permite retirar del mercado con rapidez un producto con problemas.",
-          },
-          {
-            kind: "list",
-            items: [
-              "Trazabilidad hacia atrás: albaranes y facturas de proveedores, lotes y fechas de recepción.",
-              "Trazabilidad interna: qué lote se ha usado en qué elaboración y en qué fecha.",
-              "Trazabilidad hacia delante: a quién se ha suministrado el producto (cuando se vende a otras empresas).",
-              "Conservar la documentación el tiempo establecido y mantener los lotes identificados al trasvasar productos.",
-            ],
-          },
-        ],
-      },
-      {
-        title: "6.5 Nociones de APPCC",
-        blocks: [
-          {
-            kind: "p",
-            text: "El APPCC (Análisis de Peligros y Puntos de Control Crítico) es un sistema preventivo de autocontrol que identifica los peligros de cada etapa del proceso y establece cómo controlarlos. Las empresas alimentarias deben implantar sistemas de autocontrol basados en los principios del APPCC o aplicar guías de prácticas correctas de higiene.",
-          },
-          {
-            kind: "list",
-            items: [
-              "Principio 1. Identificar y analizar los peligros en cada fase.",
-              "Principio 2. Determinar los puntos de control crítico (PCC).",
-              "Principio 3. Establecer los límites críticos para cada PCC.",
-              "Principio 4. Establecer un sistema de vigilancia de los PCC.",
-              "Principio 5. Definir las medidas correctoras cuando un PCC está fuera de control.",
-              "Principio 6. Establecer procedimientos de verificación del sistema.",
-              "Principio 7. Crear un sistema de documentación y registros.",
-            ],
-          },
-          {
-            kind: "p",
-            text: "Antes del APPCC deben funcionar los prerrequisitos o planes generales de higiene: control del agua, limpieza y desinfección, control de plagas, mantenimiento, formación, trazabilidad, control de proveedores y gestión de residuos.",
-          },
-          {
-            kind: "note",
-            title: "El papel del manipulador",
-            text: "El manipulador es quien vigila la mayoría de los puntos de control: temperaturas, tiempos, estado de las materias primas y limpieza. Anotar los registros con veracidad y avisar de las desviaciones es parte esencial de su trabajo.",
-          },
-        ],
-      },
-    ],
-    quiz: [
-      {
-        type: "multiple",
-        question: "¿Cuántas sustancias alergénicas son de declaración obligatoria en la Unión Europea?",
-        options: ["8", "10", "14", "20"],
-        correct: 2,
-        explanation: "El Reglamento (UE) 1169/2011 establece 14 alérgenos de declaración obligatoria.",
-      },
-      {
-        type: "multiple",
-        question: "¿Cuál de estos NO está en la lista de los 14 alérgenos?",
-        options: ["Apio", "Mostaza", "Tomate", "Altramuces"],
-        correct: 2,
-        explanation: "El tomate no forma parte de la lista de declaración obligatoria.",
-      },
-      {
-        type: "boolean",
-        question: "Basta con que el personal de sala recuerde de memoria los alérgenos de cada plato.",
-        options: VF,
-        correct: 1,
-        explanation: "La información debe estar disponible por escrito y ser accesible al cliente.",
-      },
-      {
-        type: "multiple",
-        question: "La diferencia principal entre alergia e intolerancia es que la alergia…",
-        options: [
-          "Implica una reacción del sistema inmunitario y puede ser grave con cantidades mínimas",
-          "Solo produce molestias digestivas leves",
-          "Depende siempre de la cantidad ingerida",
-          "Desaparece cocinando el alimento",
-        ],
-        correct: 0,
-        explanation: "La alergia puede provocar shock anafiláctico con trazas del alimento.",
-      },
-      {
-        type: "multiple",
-        question: "Para preparar el plato de un cliente alérgico, lo correcto es…",
-        options: [
-          "Lavarse las manos, cambiar de guantes y usar utensilios limpios o exclusivos",
-          "Retirar el ingrediente del plato ya emplatado",
-          "Usar la misma tabla si se ve limpia",
-          "Freírlo en el aceite habitual",
-        ],
-        correct: 0,
-        explanation: "Hay que evitar cualquier contacto cruzado, incluido el aceite compartido.",
-      },
-      {
-        type: "boolean",
-        question: "Los sulfitos deben declararse cuando superan 10 mg/kg o 10 mg/l.",
-        options: VF,
-        correct: 0,
-        explanation: "Es el umbral fijado para el dióxido de azufre y los sulfitos.",
-      },
-      {
-        type: "multiple",
-        question: "La trazabilidad hacia atrás se documenta principalmente con…",
-        options: [
-          "Albaranes y facturas de proveedores, lotes y fechas de recepción",
-          "El libro de reservas",
-          "Las encuestas de satisfacción",
-          "El registro de temperaturas del comedor",
-        ],
-        correct: 0,
-        explanation: "Permite saber de dónde viene cada producto.",
-      },
-      {
-        type: "multiple",
-        question: "¿Qué significa APPCC?",
-        options: [
-          "Análisis de Peligros y Puntos de Control Crítico",
-          "Aplicación de Prácticas Profesionales de Cocina Colectiva",
-          "Auditoría Permanente de Productos y Control de Calidad",
-          "Acta de Prevención de Plagas y Contaminación Cruzada",
-        ],
-        correct: 0,
-        explanation: "Es un sistema preventivo de autocontrol.",
-      },
-      {
-        type: "multiple",
-        question: "¿Cuántos principios tiene el sistema APPCC?",
-        options: ["3", "5", "7", "14"],
-        correct: 2,
-        explanation: "Siete principios, desde el análisis de peligros hasta la documentación y registros.",
-      },
-      {
-        type: "multiple",
-        question: "Los prerrequisitos o planes generales de higiene incluyen…",
-        options: [
-          "Control del agua, limpieza y desinfección, plagas, mantenimiento, formación y trazabilidad",
-          "Solo la formación del personal",
-          "La carta de vinos",
-          "El plan de marketing del local",
-        ],
-        correct: 0,
-        explanation: "Deben funcionar antes de aplicar el APPCC.",
-      },
-      {
-        type: "boolean",
-        question: "El manipulador es quien vigila en el día a día la mayoría de los puntos de control.",
-        options: VF,
-        correct: 0,
-        explanation: "Temperaturas, tiempos, materias primas y limpieza se vigilan en el puesto de trabajo.",
-      },
-      {
-        type: "multiple",
-        question: "Si un punto de control crítico se sale de sus límites, hay que…",
-        options: [
-          "Aplicar la medida correctora prevista y registrar la incidencia",
-          "Continuar el servicio y no anotarlo",
-          "Cambiar el límite crítico",
-          "Esperar a la siguiente inspección",
-        ],
-        correct: 0,
-        explanation: "El principio 5 del APPCC establece las medidas correctoras.",
-      },
-    ],
+    sections: [],
+    quiz: [],
   },
 ];
 
-export const getModule = (id: number) => modules.find((m) => m.id === id);
-
-export const toneClasses: Record<
-  Module["tone"],
-  { card: string; badge: string; num: string; chip: string }
-> = {
-  mint: { card: "bg-mint/50", badge: "bg-mint-deep", num: "text-mint-deep", chip: "bg-mint/70" },
-  sky: { card: "bg-sky/50", badge: "bg-sky-deep", num: "text-sky-deep", chip: "bg-sky/70" },
-  lav: { card: "bg-lav/60", badge: "bg-lav-deep", num: "text-lav-deep", chip: "bg-lav/70" },
-  peach: { card: "bg-peach/60", badge: "bg-berry", num: "text-berry", chip: "bg-peach/70" },
-  butter: { card: "bg-butter/60", badge: "bg-mint-deep", num: "text-mint-deep", chip: "bg-butter/80" },
-  berry: { card: "bg-peach/60", badge: "bg-berry", num: "text-berry", chip: "bg-peach/70" },
-};
+```
