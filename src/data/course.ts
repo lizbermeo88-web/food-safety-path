@@ -239,18 +239,44 @@ export const modules: Module[] = [
     duration: "40 min",
     sections: [
       {
-        title: "2.1 Higiene alimentaria y calidad higiénica",
-        blocks: [
-          {
-            kind: "p",
-            text: "La calidad higiénica de un alimento depende de la calidad higiénica de la materia prima y de la manipulación correcta del mismo.",
-          },
-          {
-            kind: "p",
-            text: "La contaminación de un alimento es la presencia en él de cualquier sustancia u organismo no deseado. Puede ser de 3 tipos: física, química y biológica.",
-          },
-        ],
-      },
+  title: "2.1 Higiene alimentaria y calidad higiénica",
+  blocks: [
+    {
+      kind: "p",
+      text: "La calidad higiénica de un alimento depende de la calidad higiénica de la materia prima y de la manipulación correcta del mismo.",
+    },
+    {
+      kind: "p",
+      text: "La higiene alimentaria es el conjunto de medidas para que el alimento llegue al cliente <strong>seguro</strong>: sin suciedad, sin productos químicos peligrosos y sin microorganismos que puedan enfermar.",
+    },
+    {
+      kind: "p",
+      text: "La contaminación de un alimento es la presencia en él de cualquier sustancia u organismo no deseado. Puede ser de <strong>3 tipos: física, química y biológica</strong>. En los siguientes apartados verás cada una con detalle.",
+    },
+    {
+      kind: "table",
+      head: ["Tipo", "¿Qué es?", "Ejemplo en cocina"],
+      rows: [
+        ["Física", "Un objeto que no debería estar en el plato", "Pelo, cristal, tirita, anillo, plástico"],
+        ["Química", "Una sustancia que no es alimento", "Lejía, insecticida, aceite de máquina"],
+        ["Biológica", "Seres vivos que no se ven a simple vista", "Bacterias, virus, mohos, parásitos"],
+      ],
+    },
+    {
+      kind: "list",
+      items: [
+        "<strong>Se ve:</strong> casi siempre es contaminación física (un pelo, un cristal, un pendiente).",
+        "<strong>No se ve y puede oler fuerte:</strong> piensa en química (lejía, desinfectante mal aclarado).",
+        "<strong>No se ve y el alimento parece normal:</strong> piensa en biológica. Es la más peligrosa en hostelería.",
+      ],
+    },
+    {
+      kind: "note",
+      title: "Para recordar en el puesto de trabajo",
+      text: "Un alimento puede oler bien, verse bien y saborear bien… y estar contaminado. La calidad higiénica no se decide «a ojo»: se consigue con materia prima segura, manos limpias, utensilios limpios y separación de crudos y cocinados.",
+    },
+  ],
+},
       {
         title: "2.2 Contaminación física",
         blocks: [
