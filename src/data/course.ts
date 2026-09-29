@@ -67,19 +67,19 @@ export const modules: Module[] = [
         blocks: [
           {
             kind: "p",
-            text: "Si vas a trabajar en un sector en contacto con los alimentos, necesitas un **certificado de manipulador de alimentos.** Este carnet acredita que cuentas con **formación en materia de higiene alimentaria,** necesaria para desarrollar tu trabajo.",
+            text: "Si vas a trabajar en un sector en contacto con los alimentos, necesitas un <strong>certificado de manipulador de alimentos.</strong> Este carnet acredita que cuentas con <strong>formación en materia de higiene alimentaria,</strong> necesaria para desarrollar tu trabajo.",
           },
           {
             kind: "p",
-            text: "Cada Comunidad Autónoma tiene su normativa en materia de higiene de los alimentos, pero el certificado de manipulador de alimentos, una vez obtenido, es **válido en todo el territorio nacional.**",
+            text: "Cada Comunidad Autónoma tiene su normativa en materia de higiene de los alimentos, pero el certificado de manipulador de alimentos, una vez obtenido, es <strong>válido en todo el territorio nacional.</strong>",
           },
           {
             kind: "p",
-            text: "Según la Nota Informativa del 17 de noviembre de 2013, no existen actualmente las limitaciones que existían cuando estaba en vigor el **Real Decreto 202/2000 sobre: caducidad de los certificados**, división por sectores, ni clasificación de alto y bajo riesgo, con lo que el certificado es **válido para cualquier ámbito profesional** que requiera manipulación.",
+            text: "Según la Nota Informativa del 17 de noviembre de 2013, no existen actualmente las limitaciones que existían cuando estaba en vigor el <strong>Real Decreto 202/2000 sobre: caducidad de los certificados</strong>, división por sectores, ni clasificación de alto y bajo riesgo, con lo que el certificado es <strong>válido para cualquier ámbito profesional</strong> que requiera manipulación.",
           },
           {
             kind: "p",
-            text: "**Los certificados de manipulador de alimentos expedidos posteriormente al año 2000 no tienen fecha de caducidad,** eso significa que el «carnet» no caduca. No obstante, el **Real Decreto 109/2010** explica que no caduca el certificado, pero sí que se **exige una formación continuada,** lo que implica realizar cursos de reciclaje y aprendizaje. Es recomendable hacer esta formación cada 2 o 3 años.",
+            text: "<strong>Los certificados de manipulador de alimentos expedidos posteriormente al año 2000 no tienen fecha de caducidad,</strong> eso significa que el «carnet» no caduca. No obstante, el <strong>Real Decreto 109/2010</strong> explica que no caduca el certificado, pero sí que se <strong>exige una formación continuada,</strong> lo que implica realizar cursos de reciclaje y aprendizaje. Es recomendable hacer esta formación cada 2 o 3 años.",
           },
         ],
       },
