@@ -88,17 +88,17 @@ export const modules: Module[] = [
         blocks: [
           {
             kind: "p",
-            text: "Nos vamos a centrar en el Reglamento (CE) 852/2004, al ser el marco legal de aplicación en relación con los trabajadores de las empresas alimentarias. Este reglamento es aplicable desde el 1 de enero de 2006.",
+            text: "Nos vamos a centrar en el <strong>Reglamento (CE) 852/2004,</strong> al ser el marco legal de aplicación en relación con los trabajadores de las empresas alimentarias. Este reglamento es aplicable desde el 1 de enero de 2006.",
           },
           {
             kind: "p",
-            text: "En el Capítulo XII del Anexo II del Reglamento (CE) 852/2004, relativo a «Formación», se establece que los operadores de empresa alimentaria deberán garantizar:",
+            text: "En el <strong>Capítulo XII del Anexo II del Reglamento (CE) 852/2004,</strong> relativo a «Formación», se establece que los operadores de empresa alimentaria deberán garantizar:",
           },
           {
             kind: "list",
             items: [
               "La supervisión y la instrucción o formación de los manipuladores de productos alimenticios en cuestiones de higiene alimentaria, de acuerdo con su actividad laboral.",
-              "Que quienes tengan a su cargo el desarrollo y mantenimiento del procedimiento basado en los principios de APPCC (Artículo 5) o la aplicación de las guías de prácticas correctas de higiene hayan recibido una formación adecuada en lo tocante a la aplicación de los principios del APPCC.",
+              "Que quienes tengan a su cargo el desarrollo y mantenimiento del procedimiento basado en los principios de <a href= https://www.ambialia.es/que-es-appcc" target="_blank">APPCC</strong></a> (Artículo 5) o la aplicación de las guías de prácticas correctas de higiene hayan recibido una formación adecuada en lo tocante a la aplicación de los principios del APPCC.",
               "El cumplimiento de todos los requisitos de la legislación nacional relativa a los programas de formación para los trabajadores de determinados sectores alimentarios.",
             ],
           },
