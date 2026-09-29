@@ -1,6 +1,4 @@
-Aquí tienes el código completo de `course.ts` listo para copiar y pegar, con la extensión `.jpg` en la importación de la infografía:
-
-```typescript
+typescript
 import mod1 from "@/assets/mod-1-legal.jpg";
 import mod2 from "@/assets/mod-2-peligros.jpg";
 import mod3 from "@/assets/mod-3-etas.jpg";
@@ -715,5 +713,3 @@ export const modules: Module[] = [
     quiz: [],
   },
 ];
-
-```
