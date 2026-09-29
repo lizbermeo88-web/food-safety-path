@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Page } from "@/components/site/Shell";
@@ -27,9 +28,16 @@ type Mode = "login" | "signup" | "forgot";
 const fieldClass =
   "mt-1 w-full rounded-2xl bg-card/70 px-4 py-3 text-sm font-semibold outline-1 -outline-offset-1 outline-border placeholder:text-ink-soft/60 focus:outline-2 focus:outline-mint-deep";
 
+const dniSchema = z
+  .string()
+  .trim()
+  .toUpperCase()
+  .regex(/^(?:\d{8}[A-Z]|[XYZ]\d{7}[A-Z])$/, "Introduce un DNI o NIE válido, sin espacios ni guiones.");
+
 function Acceso() {
   const [mode, setMode] = useState<Mode>("login");
   const [name, setName] = useState("");
+  const [dni, setDni] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState<string | null>(null);
@@ -60,11 +68,17 @@ function Acceso() {
     setMessage(null);
 
     if (mode === "signup") {
+      const parsedDni = dniSchema.safeParse(dni);
+      if (!parsedDni.success) {
+        setError(parsedDni.error.issues[0]?.message ?? "Introduce un DNI o NIE válido.");
+        setBusy(false);
+        return;
+      }
       const { data, error: err } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          data: { full_name: name },
+          data: { full_name: name.trim(), dni: parsedDni.data },
           emailRedirectTo: `${window.location.origin}/curso`,
         },
       });
@@ -103,16 +117,32 @@ function Acceso() {
 
           <form onSubmit={submit} className="mt-6 space-y-3">
             {mode === "signup" && (
-              <label className="block">
-                <span className="text-sm font-bold">Nombre y apellidos</span>
-                <input
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Tal como aparecerá en el certificado"
-                  className={fieldClass}
-                />
-              </label>
+              <>
+                <label className="block">
+                  <span className="text-sm font-bold">Nombre y apellidos</span>
+                  <input
+                    required
+                    maxLength={100}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Tal como aparecerá en el certificado"
+                    className={fieldClass}
+                  />
+                </label>
+                <label className="block">
+                  <span className="text-sm font-bold">DNI / NIE</span>
+                  <input
+                    required
+                    autoComplete="off"
+                    inputMode="text"
+                    maxLength={9}
+                    value={dni}
+                    onChange={(e) => setDni(e.target.value.toUpperCase().replace(/\s|-/g, ""))}
+                    placeholder="12345678A o X1234567A"
+                    className={fieldClass}
+                  />
+                </label>
+              </>
             )}
             <label className="block">
               <span className="text-sm font-bold">Correo electrónico</span>

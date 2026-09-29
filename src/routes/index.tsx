@@ -115,9 +115,7 @@ function Index() {
                 height={704}
                 className="aspect-[4/3] w-full rounded-2xl object-cover"
               />
-              <p className="mt-4 text-xs font-bold tracking-wider text-lav-deep uppercase">
-                Módulo {mod.id} · {mod.duration}
-              </p>
+              <p className="mt-4 text-xs font-bold tracking-wider text-lav-deep uppercase">Módulo {mod.id}</p>
               <h3 className="mt-1 font-display text-lg leading-snug font-bold">{mod.title}</h3>
               <p className="mt-2 text-sm text-ink-soft">{mod.summary}</p>
             </article>
