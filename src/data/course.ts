@@ -1,4 +1,3 @@
-typescript
 import mod1 from "@/assets/mod-1-legal.jpg";
 import mod2 from "@/assets/mod-2-peligros.jpg";
 import mod3 from "@/assets/mod-3-etas.jpg";
@@ -686,30 +685,8 @@ export const modules: Module[] = [
         question: "Las personas mayores y los inmunodeprimidos son grupos de especial riesgo frente a las ETAs.",
         options: VF,
         correct: 0,
-        explanation: "También embarazadas, lactantes y niños pequeños.",
-      },
-      {
-        type: "multiple",
-        question: "El botulismo se relaciona principalmente con…",
-        options: [
-          "Conservas caseras mal esterilizadas",
-          "Ensaladas embolsadas",
-          "Pan recién hecho",
-          "Fruta pelada",
-        ],
-        correct: 0,
-        explanation: "Clostridium botulinum se desarrolla en ausencia de oxígeno en conservas mal procesadas.",
+        explanation: "Estos colectivos presentan una mayor vulnerabilidad y complicaciones ante infecciones alimentarias.",
       },
     ],
-  },
-  {
-    id: 4,
-    tone: "mint",
-    title: "Higiene personal del manipulador y buenas prácticas",
-    summary: "Lavado de manos, ropa de trabajo, estado de salud y hábitos correctos en la cocina.",
-    image: mod4,
-    duration: "30 min",
-    sections: [],
-    quiz: [],
   },
 ];
