@@ -25,7 +25,7 @@ export const Route = createFileRoute("/curso/$moduleId/")({
 });
 
 function Bloque({ block }: { block: Block }) {
-if (block.kind === "p") return <p className="mt-4 leading-relaxed text-ink-soft" dangerouslySetInnerHTML={{ __html: block.text }} />;
+  if (block.kind === "p") return <p className="mt-4 leading-relaxed text-ink-soft" dangerouslySetInnerHTML={{ __html: block.text }} />;
 
   if (block.kind === "list")
     return (
@@ -33,8 +33,7 @@ if (block.kind === "p") return <p className="mt-4 leading-relaxed text-ink-soft"
         {block.items.map((item, i) => (
           <li key={i} className="flex gap-3 leading-relaxed text-ink-soft">
             <span className="mt-2 size-2 shrink-0 rounded-full bg-mint-deep" />
-          <span dangerouslySetInnerHTML={{ __html: item }} />
-
+            <span dangerouslySetInnerHTML={{ __html: item }} />
           </li>
         ))}
       </ul>
@@ -45,6 +44,16 @@ if (block.kind === "p") return <p className="mt-4 leading-relaxed text-ink-soft"
         <p className="font-bold">{block.title}</p>
         <p className="mt-1 leading-relaxed text-ink-soft">{block.text}</p>
       </div>
+    );
+  if (block.kind === "image")
+    return (
+      <figure className="mt-5 overflow-hidden rounded-2xl bg-card/70 p-2">
+        <img
+          src={block.src}
+          alt={block.alt}
+          className="w-full h-auto rounded-xl"
+        />
+      </figure>
     );
   return (
     <div className="mt-5 overflow-x-auto rounded-2xl bg-card/70 p-1">
