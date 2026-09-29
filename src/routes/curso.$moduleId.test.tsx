@@ -14,10 +14,14 @@ export const Route = createFileRoute("/curso/$moduleId/test")({
         { title: `${title} | Manipulador de Alimentos` },
         {
           name: "description",
-          content: "Test de evaluación del módulo. Se aprueba con un 80% de aciertos y puede repetirse las veces necesarias.",
+          content:
+            "Test de evaluación del módulo. Se aprueba con un 80% de aciertos y puede repetirse las veces necesarias.",
         },
         { property: "og:title", content: title },
-        { property: "og:description", content: "Evaluación del módulo, repetible hasta aprobar con un 80%." },
+        {
+          property: "og:description",
+          content: "Evaluación del módulo, repetible hasta aprobar con un 80%.",
+        },
         { property: "og:type", content: "article" },
         { name: "twitter:card", content: "summary" },
       ],
@@ -25,6 +29,19 @@ export const Route = createFileRoute("/curso/$moduleId/test")({
   },
   component: Test,
 });
+
+function shuffleIndices(length: number): number[] {
+  const indices = Array.from({ length }, (_, i) => i);
+
+  for (let i = indices.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const current = indices[i]!;
+    indices[i] = indices[j]!;
+    indices[j] = current;
+  }
+
+  return indices;
+}
 
 function Test() {
   const { moduleId } = Route.useParams();
@@ -41,10 +58,19 @@ function Test() {
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
   const [result, setResult] = useState<{ percentage: number; passed: boolean } | null>(null);
+  const [shuffledIndices, setShuffledIndices] = useState<number[]>([]);
+  const [roundId, setRoundId] = useState(0);
 
   useEffect(() => {
     if (!loading && !user) void navigate({ to: "/acceso" });
   }, [loading, user, navigate]);
+
+  useEffect(() => {
+    if (!mod || done) return;
+    const current = mod.quiz[index];
+    if (!current) return;
+    setShuffledIndices(shuffleIndices(current.options.length));
+  }, [mod, index, done, roundId]);
 
   if (!mod) {
     return (
@@ -80,6 +106,10 @@ function Test() {
   const question = mod.quiz[index]!;
   const isFinal = mod.id === modules.length;
   const modId = mod.id;
+  const visibleIndices =
+    shuffledIndices.length === question.options.length
+      ? shuffledIndices
+      : question.options.map((_, i) => i);
 
   function reset() {
     setIndex(0);
@@ -88,6 +118,7 @@ function Test() {
     setScore(0);
     setDone(false);
     setResult(null);
+    setRoundId((current) => current + 1);
   }
 
   function check() {
@@ -187,18 +218,19 @@ function Test() {
           <h1 className="mt-3 font-display text-2xl font-bold">{question.question}</h1>
 
           <div className="mt-6 space-y-2">
-            {question.options.map((option, i) => {
-              const isCorrect = i === question.correct;
-              const isPicked = i === selected;
+            {visibleIndices.map((originalIndex) => {
+              const option = question.options[originalIndex]!;
+              const isCorrect = originalIndex === question.correct;
+              const isPicked = originalIndex === selected;
               let cls = "bg-card/60 outline-1 -outline-offset-1 outline-card/70";
               if (checked && isCorrect) cls = "bg-mint-deep text-primary-foreground";
               else if (checked && isPicked) cls = "bg-destructive/15 text-destructive";
               else if (isPicked) cls = "bg-lav/70 outline-2 -outline-offset-1 outline-lav-deep/40";
               return (
                 <button
-                  key={i}
+                  key={originalIndex}
                   disabled={checked}
-                  onClick={() => setSelected(i)}
+                  onClick={() => setSelected(originalIndex)}
                   className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-bold ${cls}`}
                 >
                   {option}
