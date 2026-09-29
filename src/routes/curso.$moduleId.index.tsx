@@ -147,7 +147,7 @@ function Teoria() {
             className="aspect-[4/3] w-full rounded-2xl object-cover"
           />
           <p className={`mt-4 rounded-full ${tone.chip} inline-block px-3 py-1 text-xs font-bold`}>
-            Módulo {mod.id} · {mod.duration}
+            Módulo {mod.id}
           </p>
           <h1 className="mt-3 font-display text-xl font-bold">{mod.title}</h1>
 
@@ -189,11 +189,13 @@ function Teoria() {
             <Bloque key={i} block={block} />
           ))}
 
-          <div className="mt-8 flex items-center justify-between gap-3">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <button
-              onClick={() => goTo(Math.max(0, current - 1))}
-              disabled={current === 0}
-              className="rounded-full bg-card/70 px-5 py-2.5 text-sm font-bold disabled:opacity-40"
+              onClick={() => {
+                if (current > 0) goTo(current - 1);
+                else window.history.back();
+              }}
+              className="w-full rounded-full bg-card/70 px-5 py-3 text-sm font-bold sm:w-auto"
             >
               ← Anterior
             </button>
@@ -201,16 +203,16 @@ function Teoria() {
               <Link
                 to="/curso/$moduleId/test"
                 params={{ moduleId: String(mod.id) }}
-                className="rounded-full bg-mint-deep px-5 py-2.5 text-sm font-bold text-primary-foreground shadow-lg shadow-mint-deep/30"
+                className="w-full rounded-full bg-mint-deep px-5 py-3 text-center text-sm font-bold text-primary-foreground shadow-lg shadow-mint-deep/30 sm:w-auto"
               >
-                Hacer el test →
+                Siguiente →
               </Link>
             ) : (
               <button
                 onClick={() => goTo(current + 1)}
-                className="rounded-full bg-lav-deep px-5 py-2.5 text-sm font-bold text-accent-foreground"
+                className="w-full rounded-full bg-lav-deep px-5 py-3 text-sm font-bold text-accent-foreground sm:w-auto"
               >
-                Siguiente apartado →
+                Siguiente →
               </button>
             )}
           </div>

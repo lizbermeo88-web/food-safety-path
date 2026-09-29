@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
+import { QrCode } from "lucide-react";
 import { Page } from "@/components/site/Shell";
 import { useAuth } from "@/hooks/useAuth";
 import { buildState, useCertificate, useIssueCertificate, useProgress } from "@/lib/progress";
@@ -25,7 +26,7 @@ export const Route = createFileRoute("/certificado")({
 });
 
 function Certificado() {
-  const { user, loading, fullName } = useAuth();
+  const { user, loading, fullName, dni } = useAuth();
   const navigate = useNavigate();
   const { data: progress, isLoading } = useProgress(user?.id);
   const { data: certificate, isLoading: loadingCert } = useCertificate(user?.id);
@@ -98,6 +99,7 @@ function Certificado() {
             <h1 className="mt-4 font-display text-3xl font-bold">Certificado de Manipulador de Alimentos</h1>
             <p className="mt-6 text-sm text-ink-soft">Se certifica que</p>
             <p className="mt-1 font-display text-4xl font-bold">{name}</p>
+            <p className="mt-2 text-sm font-bold text-ink-soft">DNI/NIE: {dni || "No consta"}</p>
             <p className="mx-auto mt-4 max-w-lg text-ink-soft">
               ha superado satisfactoriamente el curso de formación en higiene alimentaria para manipuladores de
               alimentos, compuesto por seis módulos con evaluación, con una calificación media de{" "}
@@ -124,6 +126,16 @@ function Certificado() {
                 Código de registro
                 <br />
                 <span className="text-ink">{code}</span>
+              </span>
+            </div>
+
+            <div className="mx-auto mt-8 flex max-w-sm items-center justify-center gap-4 rounded-2xl bg-card/70 p-4 outline-1 -outline-offset-1 outline-mint-deep/25">
+              <span className="grid size-16 shrink-0 place-items-center rounded-xl bg-ink text-card">
+                <QrCode aria-hidden="true" className="size-11" strokeWidth={1.75} />
+              </span>
+              <span className="text-left">
+                <span className="block text-sm font-bold text-ink">Verificación de autenticidad QR</span>
+                <span className="mt-1 block text-xs font-semibold text-ink-soft">Código de registro: {code}</span>
               </span>
             </div>
           </div>

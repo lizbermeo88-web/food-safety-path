@@ -9,6 +9,7 @@ type AuthContextValue = {
   session: Session | null;
   loading: boolean;
   fullName: string;
+  dni: string;
   recovering: boolean;
   signOut: () => Promise<void>;
   clearRecovery: () => void;
@@ -19,6 +20,7 @@ const AuthContext = createContext<AuthContextValue>({
   session: null,
   loading: true,
   fullName: "",
+  dni: "",
   recovering: false,
   signOut: async () => {},
   clearRecovery: () => {},
@@ -109,6 +111,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     "";
 
   const fullName = profileName || metaName || user?.email?.split("@")[0] || "";
+  const dni = (user?.user_metadata?.["dni"] as string | undefined) ?? "";
 
   const signOut = useCallback(async () => {
     setRecovering(false);
@@ -138,11 +141,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       session,
       loading,
       fullName,
+      dni,
       recovering,
       signOut,
       clearRecovery,
     }),
-    [user, session, loading, fullName, recovering, signOut, clearRecovery],
+    [user, session, loading, fullName, dni, recovering, signOut, clearRecovery],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
