@@ -1,6 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { z } from "zod";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import { Page } from "@/components/site/Shell";
 import { ASSOCIATION } from "@/data/course";
 
@@ -12,6 +14,10 @@ export const Route = createFileRoute("/acceso")({
         name: "description",
         content: "Entra o crea tu cuenta para seguir el curso de manipulador de alimentos y guardar tu progreso.",
       },
+      { property: "og:title", content: "Acceso al curso de Manipulador de Alimentos" },
+      { property: "og:description", content: "Entra con tu correo para retomar el curso donde lo dejaste." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Acceso,
@@ -22,20 +28,11 @@ type Mode = "login" | "signup" | "forgot";
 const fieldClass =
   "mt-1 w-full rounded-2xl bg-card/70 px-4 py-3 text-sm font-semibold outline-1 -outline-offset-1 outline-border placeholder:text-ink-soft/60 focus:outline-2 focus:outline-mint-deep";
 
-const DNI_LETTERS = "TRWAGMYFPDXBNJZSQVHLCKE";
-function isValidDniNie(value: string): boolean {
-  const v = value.trim().toUpperCase().replace(/[\s-]/g, "");
-  const nie = v.replace(/^X/, "0").replace(/^Y/, "1").replace(/^Z/, "2");
-  if (!/^\d{8}[A-Z]\$/.test(nie)) return false;
-  const num = Number(nie.slice(0, 8));
-  return DNI_LETTERS[num % 23] === nie[8];
-}
-
 const dniSchema = z
   .string()
   .trim()
   .toUpperCase()
-  .refine(isValidDniNie, "Introduce un DNI o NIE válido con su letra correspondiente.");
+  .regex(/^(?:\d{8}[A-Z]|[XYZ]\d{7}[A-Z])$/, "Introduce un DNI o NIE válido, sin espacios ni guiones.");
 
 function Acceso() {
   const [mode, setMode] = useState<Mode>("login");
@@ -46,7 +43,16 @@ function Acceso() {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const { user, recovering } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (recovering) void navigate({ to: "/reset-password" });
+  }, [recovering, navigate]);
+
+  useEffect(() => {
+    if (user && !recovering) void navigate({ to: "/curso" });
+  }, [user, recovering, navigate]);
 
   function irA(next: Mode) {
     setMode(next);
@@ -68,13 +74,29 @@ function Acceso() {
         setBusy(false);
         return;
       }
-      setMessage("¡Simulación de alta con MySQL correcta! (Esperando integración del Webmaster).");
+      const { data, error: err } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { full_name: name.trim(), dni: parsedDni.data },
+          emailRedirectTo: `${window.location.origin}/curso`,
+        },
+      });
+      if (err) setError(traducir(err.message));
+      else if (!data.session)
+        setMessage("Te hemos enviado un correo para confirmar tu cuenta. Ábrelo y vuelve a entrar.");
     } else if (mode === "forgot") {
-      setMessage("Si este correo existe en la base de datos de la escuela, se enviará un enlace de recuperación.");
+      const { error: err } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+      if (err) setError(traducir(err.message));
+      else
+        setMessage(
+          "Si ese correo tiene cuenta, te hemos enviado un enlace para cambiar la contraseña. Revisa también el spam.",
+        );
     } else {
-      // TRUCO DE ACCESO TOTAL: Fuerza la entrada a la ruta del curso guardando una sesión simulada
-      localStorage.setItem("supabase.auth.token", "dummy-session-token");
-window.location.href = "/curso/1";
+      const { error: err } = await supabase.auth.signInWithPassword({ email, password });
+      if (err) setError(traducir(err.message));
     }
     setBusy(false);
   }
@@ -96,13 +118,6 @@ window.location.href = "/curso/1";
           <form onSubmit={submit} className="mt-6 space-y-3">
             {mode === "signup" && (
               <>
-                <div className="rounded-2xl bg-amber-50 border border-amber-200 p-4 text-xs text-amber-800 shadow-sm leading-relaxed">
-                  <p className="font-bold flex items-center gap-1.5 text-amber-900 mb-1">
-                    <span>⚠️</span> ¡ATENCIÓN IMPORTANTE!
-                  </p>
-                  Introduce tu nombre completo y tu DNI/NIE exactamente como aparecen en tu documento oficial. Estos datos se utilizarán para emitir tu certificado y no podrán ser modificados posteriormente.
-                </div>
-
                 <label className="block">
                   <span className="text-sm font-bold">Nombre y apellidos</span>
                   <input
@@ -175,14 +190,20 @@ window.location.href = "/curso/1";
             onClick={() => irA(mode === "login" ? "signup" : "login")}
             className="mt-5 w-full text-sm font-bold text-lav-deep"
           >
-            {mode === "signup"
-              ? "Ya tengo cuenta, quiero entrar"
-              : mode === "forgot"
-                ? "Volver a entrar"
-                : "No tengo cuenta todavía"}
+            {mode === "signup" ? "Ya tengo cuenta, quiero entrar" : "No tengo cuenta todavía"}
           </button>
         </div>
       </section>
     </Page>
   );
+}
+
+function traducir(msg: string) {
+  if (/Invalid login credentials/i.test(msg)) return "El correo o la contraseña no son correctos.";
+  if (/already registered/i.test(msg)) return "Ya existe una cuenta con ese correo. Prueba a entrar.";
+  if (/Email not confirmed/i.test(msg)) return "Confirma tu correo desde el mensaje que te hemos enviado.";
+  if (/Password should be/i.test(msg)) return "La contraseña debe tener al menos 6 caracteres.";
+  if (/rate limit/i.test(msg)) return "Has pedido demasiados correos seguidos. Espera un minuto e inténtalo de nuevo.";
+  if (/redirect/i.test(msg)) return "Hay que autorizar esta dirección en Supabase (Authentication → URL Configuration).";
+  return msg;
 }
