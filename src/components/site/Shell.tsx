@@ -25,9 +25,11 @@ export function SiteHeader() {
           alt="Hostelería A Coruña"
           className="size-10 rounded-2xl object-contain bg-white"
         />
-        <span className="font-display text-lg font-semibold tracking-tight">
-          Aula<span className="text-mint-deep">Cunqueiro</span>
-        </span>
+        <span className="font-display text-lg font-semibold tracking-tight leading-tight">
+  Hostelería Coruña / <span className="text-lav-deep">Aula</span>{" "}
+  <span className="text-mint-deep">Cunqueiro</span>
+</span>
+
       </Link>
 
       <nav className="flex items-center gap-4 text-sm font-bold text-ink-soft md:gap-7">

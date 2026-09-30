@@ -89,9 +89,7 @@ function Teoria() {
     if (entry?.progress?.last_section) setCurrent(Math.min(entry.progress.last_section, (mod?.sections.length ?? 1) - 1));
   }, [entry?.progress?.last_section, mod?.sections.length]);
 
-  useEffect(() => {
-    if (!loading && !user) void navigate({ to: "/acceso" });
-  }, [loading, user, navigate]);
+
 
   if (!mod) {
     return (
