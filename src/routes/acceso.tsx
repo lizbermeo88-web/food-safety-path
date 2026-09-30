@@ -74,7 +74,7 @@ function Acceso() {
     } else {
       // TRUCO DE ACCESO TOTAL: Fuerza la entrada a la ruta del curso guardando una sesión simulada
       localStorage.setItem("supabase.auth.token", "dummy-session-token");
-      window.location.href = "/curso";
+window.location.href = "/curso/1";
     }
     setBusy(false);
   }
