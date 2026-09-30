@@ -100,7 +100,7 @@ function Acceso() {
                   <p className="font-bold flex items-center gap-1.5 text-amber-900 mb-1">
                     <span>⚠️</span> ¡ATENCIÓN IMPORTANTE!
                   </p>
-                  Introduce tu nombre completo y tu DNI/NIE exactamente como aparecen en tu documento oficial. Estos datos se utilizarán para emitir tu certificado legal y no podrán ser modificados posteriormente.
+                  Introduce tu nombre completo y tu DNI/NIE exactamente como aparecen en tu documento oficial. Estos datos se utilizarán para emitir tu certificado y no podrán ser modificados posteriormente.
                 </div>
 
                 <label className="block">
