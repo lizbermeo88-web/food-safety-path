@@ -56,7 +56,7 @@ export const modules: Module[] = [
         blocks: [
           {
             kind: "p",
-            text: "Son todas aquellas personas que, por su actividad laboral, están en **contacto directo con los alimentos** durante su preparación, fabricación, transformación, elaboración, envasado, almacenamiento, transporte, distribución, venta o servicio.<br/><br/>Ser manipulador de alimentos no supone ningún riesgo de enfermar: **supone ser más responsable**. Los manipuladores tienen en sus manos la salud de los consumidores, por ello, es su responsibility realizar las **prácticas higiénicas adecuadas**."
+            text: "Son todas aquellas personas que, por su actividad laboral, están en **contacto directo con los alimentos** durante su preparación, fabricación, transformación, elaboración, envasado, almacenamiento, transporte, distribución, venta o servicio.<br/><br/>Ser manipulador de alimentos no supone ningún riesgo de enfermar: **supone ser más responsable**. Los manipuladores tienen en sus manos la salud de los consumidores, por ello, es su responsabilidad realizar las **prácticas higiénicas adecuadas**."
           },
           {
             kind: "video",
