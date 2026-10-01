@@ -25,9 +25,27 @@ export const Route = createFileRoute("/curso/$moduleId/")({
 });
 
 function Bloque({ block }: { block: Block }) {
-  if (block.kind === "p") return <p className="mt-4 leading-relaxed text-ink-soft" dangerouslySetInnerHTML={{ __html: block.text }} />;
+  if (block.kind === "p") {
+    return <p className="mt-4 leading-relaxed text-ink-soft" dangerouslySetInnerHTML={{ __html: block.text }} />;
+  }
 
-  if (block.kind === "list")
+  if (block.kind === "video") {
+    return (
+      <div className="mt-5 overflow-hidden rounded-2xl bg-black shadow-lg aspect-video w-full">
+        <video src={block.src} controls className="w-full h-full object-cover" />
+      </div>
+    );
+  }
+
+  if (block.kind === "audio") {
+    return (
+      <div className="mt-5 p-4 rounded-2xl bg-card/50 border border-border/60 flex items-center justify-center w-full shadow-inner">
+        <audio src={block.src} controls className="w-full max-w-xl" />
+      </div>
+    );
+  }
+
+  if (block.kind === "list") {
     return (
       <ul className="mt-4 space-y-2">
         {block.items.map((item, i) => (
@@ -38,13 +56,17 @@ function Bloque({ block }: { block: Block }) {
         ))}
       </ul>
     );
-  if (block.kind === "note")
+  }
+
+  if (block.kind === "note") {
     return (
       <div className="mt-5 rounded-2xl bg-butter/60 p-4 text-sm outline-1 -outline-offset-1 outline-ink/5">
         <p className="font-bold">{block.title}</p>
-        <p className="mt-1 leading-relaxed text-ink-soft">{block.text}</p>
+        <p className="mt-1 leading-relaxed text-ink-soft" dangerouslySetInnerHTML={{ __html: block.text }} />
       </div>
     );
+  }
+
   return (
     <div className="mt-5 overflow-x-auto rounded-2xl bg-card/70 p-1">
       <table className="w-full text-left text-sm">
@@ -61,9 +83,7 @@ function Bloque({ block }: { block: Block }) {
           {block.rows.map((row, i) => (
             <tr key={i} className="border-t border-border">
               {row.map((cell, j) => (
-                <td key={j} className="px-3 py-2 align-top text-ink-soft">
-                  {cell}
-                </td>
+                <td key={j} className="px-3 py-2 align-top text-ink-soft" dangerouslySetInnerHTML={{ __html: cell }} />
               ))}
             </tr>
           ))}
@@ -88,8 +108,6 @@ function Teoria() {
   useEffect(() => {
     if (entry?.progress?.last_section) setCurrent(Math.min(entry.progress.last_section, (mod?.sections.length ?? 1) - 1));
   }, [entry?.progress?.last_section, mod?.sections.length]);
-
-
 
   if (!mod) {
     return (
@@ -167,7 +185,7 @@ function Teoria() {
           </ol>
 
           <Link
-            to="/curso/$moduleId/test"
+            to="/curso/\$moduleId/test"
             params={{ moduleId: String(mod.id) }}
             className="mt-6 block rounded-full bg-lav-deep py-3 text-center font-bold text-accent-foreground"
           >
@@ -200,7 +218,7 @@ function Teoria() {
             </button>
             {isLast ? (
               <Link
-                to="/curso/$moduleId/test"
+                to="/curso/\$moduleId/test"
                 params={{ moduleId: String(mod.id) }}
                 className="w-full rounded-full bg-mint-deep px-5 py-3 text-center text-sm font-bold text-primary-foreground shadow-lg shadow-mint-deep/30 sm:w-auto"
               >
