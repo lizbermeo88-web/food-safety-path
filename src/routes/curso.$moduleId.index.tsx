@@ -109,6 +109,13 @@ function Teoria() {
     if (entry?.progress?.last_section) setCurrent(Math.min(entry.progress.last_section, (mod?.sections.length ?? 1) - 1));
   }, [entry?.progress?.last_section, mod?.sections.length]);
 
+<<<<<<< HEAD
+=======
+  useEffect(() => {
+    if (!loading && !user) void navigate({ to: "/acceso" });
+  }, [loading, user, navigate]);
+
+>>>>>>> parent of 0476eab (style: actualizar cabecera corporativa)
   if (!mod) {
     return (
       <Page>
