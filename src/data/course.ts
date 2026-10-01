@@ -49,22 +49,23 @@ export const modules: Module[] = [
     image: mod1,
     duration: "35 min",
     sections: [
-      {
+         {
         title: "1.1 ¿Qué es un manipulador de alimentos?",
         blocks: [
-         {
-  kind: "p",
-  text: "Son todas aquellas personas que, por su actividad laboral, están en **contacto directo con los alimentos** durante su preparación, fabricación, transformación, elaboración, envasado, almacenamiento, transporte, distribución, venta o servicio.<br/><br/>Ser manipulador de alimentos no supone ningún riesgo de enfermar: **supone ser más responsable**. Los manipuladores tienen en sus manos la salud de los consumidores, por ello, es su responsabilidad realizar las **prácticas higiénicas adecuadas**."
-},
-{
-  kind: "video",
-  src: "/bienvenida.mp4"
-},
-{
-  kind: "audio",
-  src: "/bienvenida.mp3"
-}
-
+          {
+            kind: "p",
+            text: "Son todas aquellas personas que, por su actividad laboral, están en **contacto directo con los alimentos** durante su preparación, fabricación, transformación, elaboración, envasado, almacenamiento, transporte, distribución, venta o servicio.<br/><br/>Ser manipulador de alimentos no supone ningún riesgo de enfermar: **supone ser más responsable**. Los manipuladores tienen en sus manos la salud de los consumidores, por ello, es su responsabilidad realizar las **prácticas higiénicas adecuadas**."
+          },
+          {
+            kind: "video",
+            src: "/bienvenida.mp4"
+          },
+          {
+            kind: "audio",
+            src: "/bienvenida.mp3"
+          }
+        ],
+      },
           {
             kind: "p",
             text: "Ser manipulador de alimentos no supone ningún riesgo de enfermar: supone ser más responsable. Los manipuladores tienen en sus manos la salud de los consumidores, por ello, es su responsabilidad realizar las prácticas higiénicas adecuadas.",
